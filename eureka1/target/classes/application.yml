@@ -1,0 +1,15 @@
+server:
+  port: 8761
+spring:
+  application:
+    name: eureka-server
+eureka:
+#  instance:
+#    hostname: 127.0.0.1
+  client:
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
+    register-with-eureka: false #因为自己是注册中心，是否需要将注册给自己的注册中心上去(集群的时候需要设置为true)
+    fetch-registry: false #因为自己是注册中心不需要去检索服务信息
+  server:
+    enable-self-preservation: false

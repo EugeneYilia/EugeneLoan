@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.eugeneliu.trade.mapper.Recharge_recordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="club.eugeneliu.trade.entity.Recharge_record">
+        <id column="serial_number" property="serial_number" />
+        <result column="recharge_date" property="recharge_date" />
+        <result column="recharge_money" property="recharge_money" />
+        <result column="bank_account" property="bank_account" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.eugeneliu.information.mapper.User_optional_infoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="club.eugeneliu.information.entity.User_optional_info">
+        <id column="id_card" property="id_card" />
+        <result column="sex" property="sex" />
+        <result column="educational_level" property="educational_level" />
+        <result column="marriage" property="marriage" />
+        <result column="profession" property="profession" />
+        <result column="address" property="address" />
+        <result column="avatar" property="avatar" />
+        <result column="special_identity" property="special_identity" />
+    </resultMap>
+
+</mapper>

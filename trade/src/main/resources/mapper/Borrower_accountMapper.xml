@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.eugeneliu.trade.mapper.Borrower_accountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="club.eugeneliu.trade.entity.Borrower_account">
+        <id column="funds_account" property="funds_account" />
+        <result column="id_card" property="id_card" />
+        <result column="account_balance" property="account_balance" />
+        <result column="borrowed_money" property="borrowed_money" />
+        <result column="credit_score" property="credit_score" />
+        <result column="total_limit" property="total_limit" />
+        <result column="available_limit" property="available_limit" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,28 @@
+server:
+  port: 3333
+
+spring:
+  datasource:
+    username: root
+    password: liuyichen
+    url: jdbc:mysql://localhost:3306/qingsongdai?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+  application:
+    name: INFORMATION-SERVICE
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: club.eugeneliu.information.entity
+  global-config:
+    id-type: 0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka,http://localhost:8762/eureka
+  instance:
+    prefer-ip-address: true
+    appname: INFORMATION-SERVICE
+
+feign:
+  hystrix:
+    enabled: true

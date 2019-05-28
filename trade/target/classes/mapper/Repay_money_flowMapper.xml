@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.eugeneliu.trade.mapper.Repay_money_flowMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="club.eugeneliu.trade.entity.Repay_money_flow">
+        <id column="serial_number" property="serial_number" />
+        <result column="bill_id" property="bill_id" />
+        <result column="in_bound_account" property="in_bound_account" />
+        <result column="out_bound_account" property="out_bound_account" />
+        <result column="exact_date" property="exact_date" />
+        <result column="money" property="money" />
+        <result column="interest_money" property="interest_money" />
+        <result column="liquidated_money" property="liquidated_money" />
+        <result column="principal_money" property="principal_money" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.eugeneliu.trade.mapper.TradeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="club.eugeneliu.trade.entity.Trade">
+        <id column="serial_number" property="serial_number" />
+        <result column="bill_id" property="bill_id" />
+        <result column="in_bound_account" property="in_bound_account" />
+        <result column="out_bound_account" property="out_bound_account" />
+        <result column="money" property="money" />
+        <result column="limit_months" property="limit_months" />
+        <result column="pay_type" property="pay_type" />
+        <result column="pay_rate" property="pay_rate" />
+        <result column="exact_date" property="exact_date" />
+        <result column="next_time_pay" property="next_time_pay" />
+        <result column="repaid_principal" property="repaid_principal" />
+        <result column="repaid_interest" property="repaid_interest" />
+        <result column="liquidated_money" property="liquidated_money" />
+        <result column="should_repay_principal" property="should_repay_principal" />
+        <result column="should_repay_interest" property="should_repay_interest" />
+        <result column="should_repay_liquidated_money" property="should_repay_liquidated_money" />
+        <result column="finished_date" property="finished_date" />
+    </resultMap>
+
+</mapper>

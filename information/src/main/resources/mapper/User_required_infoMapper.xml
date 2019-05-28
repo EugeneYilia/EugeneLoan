@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.eugeneliu.information.mapper.User_required_infoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="club.eugeneliu.information.entity.User_required_info">
+        <id column="id_card" property="id_card" />
+        <result column="phone_number" property="phone_number" />
+        <result column="user_name" property="user_name" />
+        <result column="bank_account" property="bank_account" />
+        <result column="user_type" property="user_type" />
+        <result column="password" property="password" />
+    </resultMap>
+
+</mapper>
