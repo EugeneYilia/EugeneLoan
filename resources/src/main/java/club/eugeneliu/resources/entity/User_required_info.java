@@ -15,7 +15,7 @@ public class User_required_info extends Model<User_required_info> {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer phone_number;
+    private String phone_number;
 
     private String id_card;
 
@@ -27,11 +27,11 @@ public class User_required_info extends Model<User_required_info> {
 
     private String password;
 
-    public Integer getPhone_number() {
+    public String getPhone_number() {
         return phone_number;
     }
 
-    public void setPhone_number(Integer phone_number) {
+    public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
     public String getId_card() {

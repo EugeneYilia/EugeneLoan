@@ -11,5 +11,12 @@
         <result column="user_type" property="user_type" />
         <result column="password" property="password" />
     </resultMap>
-
+    <insert id="insertUserRequiredInfo" parameterType="club.eugeneliu.information.entity.User_required_info">
+        insert into user_required_info(phone_number,id_card,user_name,bank_account,user_type,password)
+        value
+        (#{phone_number},#{id_card},#{user_name},#{bank_account},#{user_type},#{password});
+    </insert>
+    <select id="checkIsRegistered" parameterType="java.lang.String" resultType="Integer">
+        select count(*) from user_required_info where phone_number = #{phone_number};
+    </select>
 </mapper>

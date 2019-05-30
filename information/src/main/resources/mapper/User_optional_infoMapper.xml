@@ -13,5 +13,7 @@
         <result column="avatar" property="avatar" />
         <result column="special_identity" property="special_identity" />
     </resultMap>
-
+    <insert id="insertUserOptionalInfo" parameterType="java.lang.String">
+        insert into user_optional_info(id_card) values (#{id_card});
+    </insert>
 </mapper>
