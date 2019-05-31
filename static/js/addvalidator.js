@@ -36,9 +36,11 @@ $.validator.addMethod("isRegisted", function (value, element) {
 		}),
         dataType: "json",
         success: function (message) {
-            if (message.state == "successful" ) {
+            if (message.state == "unregister" ) {
                res = true;
-            }
+            }else{
+				res = false;
+			}
         },
         error: function () {
 				res = false;
@@ -49,7 +51,8 @@ $.validator.addMethod("isRegisted", function (value, element) {
 
 // 验证码验证
 $.validator.addMethod("isCodeRight", function (value, element) {
-		var res = true;
+		var res = false;
+		if(value.length == 6){
 	     $.ajax({
         type: "POST",
         url: "/information/all/checkCheckCode",
@@ -61,12 +64,15 @@ $.validator.addMethod("isCodeRight", function (value, element) {
         success: function (message) {
             if (message.state == "successful" ) {
 				res = true;
-            }
+            }else{
+				res = false;
+			}
         },
         error: function () {
 				res = false;
         }
 		})
+	}
     return this.optional(element) || res;
 });
 
@@ -120,9 +126,9 @@ $(document).ready(function () {
 				}),
 				dataType: "json",
 					success: function (message) {
-					if (message.state == "successful" ) {
+					if (message.state == "unregister" ) {
 						settime($("#btnSendCode"));
-					}	
+					}					
 				},
 				error: function () {
 						$("#btnSendCode").html("发送失败，点击重新获取");

@@ -34,7 +34,37 @@ public class User_required_infoServiceImpl extends ServiceImpl<User_required_inf
     @Override
     public boolean checkIsRegistered(String phoneNumber) {
         int result = user_required_infoMapper.checkIsRegistered(phoneNumber);
-        if(result == 1){
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateUserName(String user_name) {
+        int result = user_required_infoMapper.updateUserName(user_name);
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateUserPhoneNumber(String phone_number) {
+        int result = user_required_infoMapper.updateUserPhoneNumber(phone_number);
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateUserPassword(String password) {
+        int result = user_required_infoMapper.updateUserPassword(password);
+        if (result == 1) {
             return true;
         } else {
             return false;

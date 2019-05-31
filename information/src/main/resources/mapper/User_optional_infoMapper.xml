@@ -16,4 +16,15 @@
     <insert id="insertUserOptionalInfo" parameterType="java.lang.String">
         insert into user_optional_info(id_card) values (#{id_card});
     </insert>
+    <update id="updateUserOptionalInfo" parameterType="club.eugeneliu.information.entity.User_optional_info">
+        update user_optional_info set sex = #{sex},educational_level = #{educational_level},marriage=#{marriage},profession=#{profession},address=#{address}
+        where id_card = #{id_card}
+    </update>
+
+    <update id="updateAvatar" parameterType="club.eugeneliu.information.entity.User_optional_info">
+        update user_optional_info set avatar = #{avatar} where id_card = #{id_card}
+    </update>
+    <update id="updateSpecialIdentity" parameterType="club.eugeneliu.information.entity.User_optional_info">
+        update user_optional_info set special_identity = #{special_identity} where id_card = #{id_card}
+    </update>
 </mapper>

@@ -106,7 +106,7 @@ $(document).ready(function(){
             },
             bk_yzm:{
                 required:"验证码不能为空",
-                minlength:"请输入六位验证码",
+                minlength:"请输入六验证码",
                 maxlength:"请输入六位验证码",
             },
             password: {

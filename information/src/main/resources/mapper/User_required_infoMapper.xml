@@ -19,4 +19,16 @@
     <select id="checkIsRegistered" parameterType="java.lang.String" resultType="Integer">
         select count(*) from user_required_info where phone_number = #{phone_number};
     </select>
+    <update id="updateUserName" parameterType="club.eugeneliu.information.entity.User_required_info">
+        update user_required_info set user_name = #{user_name} where id_card = #{id_card}
+    </update>
+    <update id="updateUserPhoneNumber" parameterType="club.eugeneliu.information.entity.User_required_info">
+        update user_required_info set phone_number = #{phone_number} where id_card = #{id_card}
+    </update>
+    <update id="updateUserPassword" parameterType="club.eugeneliu.information.entity.User_required_info">
+        update user_required_info set password = #{password} where id_card = #{id_card}
+    </update>
+    <select id="selectUserInfo" parameterType="club.eugeneliu.information.entity.User_required_info" resultMap="BaseResultMap">
+        select * from user_required_info where id_card = #{id_card}
+    </select>
 </mapper>
