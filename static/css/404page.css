@@ -1,0 +1,38 @@
+.404_img_agile {
+    background: url(../images/contact.jpg) no-repeat 0px 0px;
+    background-size: cover;
+    min-height: 410px;
+}
+
+@media(max-width:991px) {
+       .404_img_agile {
+        min-height: 450px;
+    }
+}
+@media(max-width:768px) {
+    .404_img_agile {
+        min-height: 400px;
+    }
+}
+
+@media(max-width:767px) {
+    .404_img_agile {
+        min-height: 250px;
+    }
+}
+
+@media(max-width:640px) {
+    .404_img_agile {
+        min-height: 311px;
+    }
+}
+@media(max-width:480px) {
+    .404_img_agile {
+        min-height: 227px;
+    }
+}
+@media(max-width:440px) {
+    .404_img_agile {
+        min-height: 152px;
+    }
+}

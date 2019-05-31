@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2019-05-27
  */
 public interface IDepositoryService extends IService<Depository> {
-
+    boolean insertDepository(Depository depository);
 }

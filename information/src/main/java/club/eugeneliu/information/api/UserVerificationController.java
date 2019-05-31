@@ -34,11 +34,11 @@ public class UserVerificationController {
         boolean isRegistered = iUser_required_infoService.checkIsRegistered(phoneNumber);
         if(isRegistered){
             JSONObject result = new JSONObject();
-            result.put("state","successful");
+            result.put("state","registered");//已经注册
             return result.toJSONString();
         } else {
             JSONObject result = new JSONObject();
-            result.put("state","error");
+            result.put("state","unregister");//还未注册
             return result.toJSONString();
         }
     }
@@ -46,9 +46,10 @@ public class UserVerificationController {
 
     @ApiImplicitParam(name="phone_number",value = "用户手机号",required = true,dataType = "String")
     @ApiOperation(value = "验证手机",notes = "发送验证码验证该手机")
-    @PostMapping(value = "/all/checkCode",produces = "application/json;charset=UTF-8")
-    public String sendCheckCode(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        String phoneNumber = httpServletRequest.getParameter("phone_number");
+    @PostMapping(value = "/all/sendCheckCode",produces = "application/json;charset=UTF-8")
+    public String sendCheckCode(@RequestBody Map objects){
+        String phoneNumber = (String)objects.get("phone_number");
+        System.out.println(phoneNumber);
         // --------->Send CheckCode
 
         // 默认发送成功
@@ -59,14 +60,31 @@ public class UserVerificationController {
 
     @ApiImplicitParam(name="check_code",value = "手机验证码",required = true,dataType = "String")
     @ApiOperation(value = "核实验证码",notes = "检验用户提交的验证码是否正确")
-    @PostMapping(value = "/all/checkCode",produces = "application/json;charset=UTF-8")
-    public String checkCheckCode(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        String phoneNumber = httpServletRequest.getParameter("phone_number");
+    @PostMapping(value = "/all/checkCheckCode",produces = "application/json;charset=UTF-8")
+    public String checkCheckCode(@RequestBody Map objects){
+        String phoneNumber = (String)objects.get("check_code");
+        System.out.println(phoneNumber);
 
-
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
-        return "{'state':'successful'}";
+        // 默认检验成功
+        JSONObject result = new JSONObject();
+        result.put("state","error");
+        return result.toJSONString();
     }
+
+    @ApiImplicitParam(name="phone_number",value = "用户手机号",required = true,dataType = "String")
+    @ApiOperation(value = "验证银行卡预留手机",notes = "发送验证码验证该银行卡对应的预留手机号")
+    @PostMapping(value = "/all/sendCheckCode2",produces = "application/json;charset=UTF-8")
+    public String sendCheckCode2(@RequestBody Map objects){
+        String phoneNumber = (String)objects.get("phone_number");
+        System.out.println(phoneNumber);
+        // --------->Send CheckCode
+
+        // 默认发送成功
+        JSONObject result = new JSONObject();
+        result.put("state","successful");
+        return result.toJSONString();
+    }
+
 
     @ApiImplicitParams({
             @ApiImplicitParam(name="user_name",value = "用户姓名",required = true,dataType = "String"),

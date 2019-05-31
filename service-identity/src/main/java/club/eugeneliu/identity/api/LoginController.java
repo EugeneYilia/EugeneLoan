@@ -37,22 +37,28 @@ public class LoginController {
         String phoneNumber = httpServletRequest.getParameter("phone_num");
         String password = httpServletRequest.getParameter("password");
         List<User_required_info> list = iUser_required_infoService.checkIdentity(phoneNumber, password);
-        String encodedPhoneNumber = CertificationUtil.encode(phoneNumber);
 
         if (list.size() == 1) {
+            //使用自己的授权方式,最简版本的授权
+            //不依赖于Session,减少了服务器端的压力
             User_required_info user_required_info = list.get(0);
-            Cookie cookie1 = new Cookie("phone_number", encodedPhoneNumber);
+            Cookie cookie1 = new Cookie("phone_number",  CertificationUtil.encode(phoneNumber));
             cookie1.setMaxAge(24 * 60 * 60);//cookie有效期为一天
             Cookie cookie2 = new Cookie("user_name", CertificationUtil.encode(user_required_info.getUser_name()));
             cookie2.setMaxAge(24 * 60 * 60);//cookie有效期为一天
             Cookie cookie3 = new Cookie("id_card", CertificationUtil.encode(user_required_info.getId_card()));
             cookie3.setMaxAge(24 * 60 * 60);//cookie有效期为一天
+            Cookie cookie4 = new Cookie("user_type",CertificationUtil.encode(String.valueOf(user_required_info.getUser_type())));
+            cookie4.setMaxAge(24 * 60 * 60);//cookie有效期为一天
+
             httpServletResponse.addCookie(cookie1);
             httpServletResponse.addCookie(cookie2);
             httpServletResponse.addCookie(cookie3);
+            httpServletResponse.addCookie(cookie4);
 
             return "redirect:/static/index.html";
         } else {
+            //登录失败，返回到首页
             return "redirect:/static/login.html";
         }
     }

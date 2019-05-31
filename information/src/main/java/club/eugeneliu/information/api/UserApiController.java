@@ -1,6 +1,7 @@
 package club.eugeneliu.information.api;
 
 import club.eugeneliu.information.entity.User_required_info;
+import club.eugeneliu.information.mq.RegisterMq;
 import club.eugeneliu.information.service.IUser_optional_infoService;
 import club.eugeneliu.information.service.IUser_required_infoService;
 import com.alibaba.fastjson.JSONObject;
@@ -28,19 +29,6 @@ public class UserApiController {
 
     @Autowired
     IUser_optional_infoService iUser_optional_infoService;
-
-//    @ApiImplicitParam(name = "bank_number", value = "银行卡号", required = true, dataType = "String")
-//    @ApiOperation(value = "开通第三方存管账户", notes = "输入银行卡号，然后开通第三方存管账号")
-//    @PostMapping(value = "/all/deposit")
-    public String openDeposit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String bank_number = httpServletRequest.getParameter("bank_number");
-        //请求第三方接口开通第三方存管账户   将银行卡号与第三方存管账号的对应关系存到depository表中
-        String depository_number = "zxcvbnmasdfghjkl";
-
-
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
-        return "{'state':'successful'}";
-    }
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone_number", value = "手机号", required = true, dataType = "String"),
@@ -94,11 +82,16 @@ public class UserApiController {
             user_required_info.setUser_name(user_name);
             user_required_info.setUser_type(Integer.parseInt(user_type));
 
+//            boolean isInsertRequiredSuccessful = true;
+//            boolean isInsertOptionalSuccessful = true;
+
             boolean isInsertRequiredSuccessful = iUser_required_infoService.insertUserRequiredInfo(user_required_info);
             boolean isInsertOptionalSuccessful = iUser_optional_infoService.insertUserOptionalInfo(id_card);
 
+
+
             if (isInsertRequiredSuccessful && isInsertOptionalSuccessful) {
-                System.out.println("用户注册成功");
+                RegisterMq.send(user_type,id_card);
                 JSONObject result = new JSONObject();
                 result.put("state","successful");
                 return result.toJSONString();

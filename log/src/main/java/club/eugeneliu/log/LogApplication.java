@@ -31,6 +31,7 @@ public class LogApplication {
 
     private void startLog() {
         kafkaConsumer.subscribe(Arrays.asList("log"));
+        System.out.println("日志记录应用启动成功");
         while (true) {
             ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(100);
             for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {

@@ -4,6 +4,7 @@ import club.eugeneliu.trade.entity.Depository;
 import club.eugeneliu.trade.mapper.DepositoryMapper;
 import club.eugeneliu.trade.service.IDepositoryService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +18,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class DepositoryServiceImpl extends ServiceImpl<DepositoryMapper, Depository> implements IDepositoryService {
 
+    @Autowired
+    private DepositoryMapper depositoryMapper;
+
+    @Override
+    public boolean insertDepository(Depository depository) {
+        int result = depositoryMapper.insertDepository(depository);
+        if(result == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -2,6 +2,8 @@ package club.eugeneliu.trade.mapper;
 
 import club.eugeneliu.trade.entity.Lender_account;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -11,6 +13,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @author EugeneLiu
  * @since 2019-05-27
  */
+@Component
 public interface Lender_accountMapper extends BaseMapper<Lender_account> {
-
+    int insertLender(Lender_account lender_account);
 }

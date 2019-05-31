@@ -2,6 +2,7 @@ package club.eugeneliu.trade.service;
 
 import club.eugeneliu.trade.entity.Borrower_account;
 import com.baomidou.mybatisplus.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2019-05-27
  */
 public interface IBorrower_accountService extends IService<Borrower_account> {
-
+    boolean insertBorrower(Borrower_account borrower_account);
 }

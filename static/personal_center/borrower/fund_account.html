@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+	<link rel="icon" href="../../images/qsd_logo.ico" sizes="48x48" type="image/x-icon"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>
+        个人中心
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- CSS Files -->
+    <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet"/>
+</head>
+
+<body class="">
+<div class="wrapper ">
+    <div class="sidebar" data-color="green" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
+        <!--
+          Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+          Tip 2: you can also add an image using data-image tag
+      -->
+        <div class="logo">
+            <a href="./found_account.html" class="simple-text logo-normal">
+                青松贷
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="fund_account.html">
+                        <i class="material-icons">attach_money</i>
+                        <p>资金账户</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="user_info.html">
+                        <i class="material-icons">person</i>
+                        <p>个人信息</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="special_certification.html">
+                        <i class="material-icons">library_books</i>
+                        <p>特殊认证</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="unfinished_funds_record.html">
+                        <i class="material-icons">event_note</i>
+                        <p>待交易</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="repayment_record.html">
+                        <i class="material-icons">event_busy</i>
+                        <p>待还款</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="finished_funds_record.html">
+                        <i class="material-icons">event_available</i>
+                        <p>已完成</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                    <a class="navbar-brand" href="#">资金账户</a>
+                </div>
+            </div>
+        </nav>
+        <!-- End Navbar -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-profile">
+                            <div class="card-avatar">
+                                <a href="#">
+                                    <img class="img" src="../assets/img/faces/marc.jpg"/>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <table class="table" id="tb1_found_account">
+                                    <tbody>
+                                    <tr>
+                                        <th>您好：</th>
+                                    </tr>
+                                    <tr>
+                                        <th>信用评分：</th>
+                                    </tr>
+                                    <tr>
+                                        <th>账号：</th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ml-5">
+                        <div class="card card-profile">
+                            <div class="card-header-primary">
+                                <p>账户余额</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-body">
+                                </div>
+                                <table class="table" id="tb_balance">
+                                    <tbody>
+                                    <tr>
+                                        <th>账户余额：</th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-control">
+                                    <button type="button" class="btn btn-success" id="recharge">充值</button>
+                                    <button type="button" class="btn btn-success" id="withdraw">提现</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-profile">
+                            <div class="card-header-primary">
+                                <p>借款额度</p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table" id="tb_amount">
+                                    <tbody>
+                                    <tr>
+                                        <th>总额度：</th>
+                                    </tr>
+                                    <tr>
+                                        <th>可用额度：</th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-control">
+                                    <button type="button" class="btn btn-success" id="borrow_now">立即借款</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--   Core JS Files   -->
+<script src="../assets/js/core/jquery.min.js"></script>
+<script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<!-- Chartist JS -->
+<script src="../assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="../assets/js/plugins/bootstrap-notify.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initGoogleMaps();
+    });
+</script>
+</body>
+
+</html>
