@@ -3,6 +3,7 @@ package club.eugeneliu.identity.api;
 import club.eugeneliu.identity.entity.User_required_info;
 import club.eugeneliu.identity.service.IUser_required_infoService;
 import club.eugeneliu.identity.utils.CertificationUtil;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,15 +29,29 @@ public class LoginController {
     private IUser_required_infoService iUser_required_infoService;
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "phone_num", value = "手机号", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "phone_number", value = "手机号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String")
     })
     @ApiOperation(value = "验证用户信息", notes = "验证用户的身份，如果登陆成功，生成session，之后这个模块作为身份验证服务,成功就跳转到首页否则返回json告诉登录失败")
-    @PostMapping(value = "/all/login")
+    @PostMapping(value = "/all/login",produces = "application/json;charset=UTF-8")
+    @ResponseBody()
     public String userLogin(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String phoneNumber = httpServletRequest.getParameter("phone_num");
+        String phoneNumber = httpServletRequest.getParameter("phone_number");
         String password = httpServletRequest.getParameter("password");
+
+        System.out.println(phoneNumber);
+        System.out.println(password);
+        if(phoneNumber==null||password==null){
+            JSONObject result = new JSONObject();
+            result.put("state","-1");//-1登录失败
+            return result.toJSONString();
+        }
+
         User_required_info user_required_info = iUser_required_infoService.checkIdentity(phoneNumber, password);
+
+
+
+        System.out.println(user_required_info==null?null:user_required_info.getId_card());
 
         if (user_required_info != null) {
             //使用自己的授权方式,最简版本的授权
@@ -54,11 +69,28 @@ public class LoginController {
             httpServletResponse.addCookie(cookie2);
             httpServletResponse.addCookie(cookie3);
             httpServletResponse.addCookie(cookie4);
-
-            return "redirect:/static/index.html";
+            JSONObject result = new JSONObject();
+            result.put("state",user_required_info.getUser_type());//0借入者，1借出者
+            return result.toJSONString();
+//            if(user_required_info.getUser_type() == 0){
+//                JSONObject result = new JSONObject();
+//                result.put("state",user_required_info.getUser_type());
+//                return result.toJSONString();
+////                return "192.168.0.163/static/borrower/index_borrower.html";
+//            } else if(user_required_info.getUser_type() == 1){
+//                JSONObject result = new JSONObject();
+//                result.put("user_type",user_required_info.getUser_type());
+//                result.put("state","successful");
+//                return result.toJSONString();
+////                return "192.168.0.163/static/lender/index_lender.html";
+//            }
+//            return "redirect:192.168.0.163/static/index.html";
         } else {
+            JSONObject result = new JSONObject();
+            result.put("state","-1");//-1登录失败
+            return result.toJSONString();
             //登录失败，返回到首页
-            return "redirect:/static/login.html";
+//            return "redirect:192.168.0.163/static/login.html";
         }
     }
 

@@ -1,0 +1,39 @@
+[
+  {
+    "bill_id": "666" ,
+    "intend_money" : "525" ,
+    "start_date" : "2019-06-28" ,
+    "rate" : "3" ,
+    "pay_type" : "1" ,
+    "limit_nomths" : "13" ,
+    "state" : "0" ,
+    "raised_money" : "88",
+    "lend_money": "100",
+    "excat_date": "2019-08-08"
+  },
+  {
+  "bill_id": "777" ,
+  "intend_money" : "1000" ,
+  "start_date" : "2018-04-16" ,
+  "rate" : "2" ,
+  "pay_type" : "1" ,
+  "limit_nomths" : "12" ,
+  "state" : "0" ,
+  "raised_money" : "98",
+  "lend_money": "700",
+  "excat_date": "2019-07-03"
+  },
+  {
+  "bill_id": "888" ,
+  "intend_money" : "20000" ,
+  "start_date" : "2019-01-22" ,
+  "rate" : "1" ,
+  "pay_type" : "3" ,
+  "limit_nomths" : "15" ,
+  "state" : "0" ,
+  "raised_money" : "800",
+  "lend_money": "18500",
+  "excat_date": "2019-01-29"
+   }
+
+]

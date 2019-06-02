@@ -54,13 +54,13 @@
                                   <h4 class="info-text"> 手机号注册</h4>
                                   <div class="col-sm-6 col-sm-offset-3">
                                       <div class="form-group">
-                                          <div class="btn-group col-md-12">
-												<button type="button" class="btn btn-info col-md-6" name="user_type"  id="borrower_btn" value="">我要借入</button>
-												<button type="button" class="btn btn-info col-md-6" id="lender_btn">我要借出</button>
+										    <div class="btn-group col-md-12">
+												<button type="button" class="btn btn-success col-md-6" name="user_type"  id="borrower_btn" value="0">我要借入</button>
+												<button type="button" class="btn col-md-6" id="lender_btn">我要借出</button>
 										  </div>
                                       </div>
                                       <div class="form-group col-md-12">
-                                        <label> 请填写常用手机号 </label>
+                                        <label> 请填写绑定银行卡的手机号 </label>
                                         <input name="phone_num" type="text" class="form-control" id="phone_num" oninput="value=value.replace(/[^\d]/g,'')" placeholder="默认为11位">
                                       </div>
                                       <div class="form-group col-md-12">
@@ -73,7 +73,7 @@
                                       </div>
                                       <div class="form-group">
                                           <div class="col-md-7">
-                                              <input type="text" class="form-control" name="yzm" id="yzm" oninput="value=value.replace(/[^\d]/g,'')" placeholder="请输入短信验证码">
+                                              <input type="text" class="form-control" disabled="disabled" name="yzm" id="yzm" oninput="value=value.replace(/[^\d]/g,'')" placeholder="请输入短信验证码">
                                           </div>
                                           <div class="col-md-5">
                                               <button class="form-control btn btn-default" disabled="disabled" type="button" id="btnSendCode" >获取验证码</button>
@@ -120,11 +120,11 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-7">
-                                                <input type="text" class="form-control" name="bk_yzm" id="bk_yzm" oninput="value=value.replace(/[^\d]/g,'')"
+                                                <input type="text" class="form-control" disabled="disabled" name="bk_yzm" id="bk_yzm" oninput="value=value.replace(/[^\d]/g,'')"
                                                        placeholder="请输入短信验证码">
                                             </div>
                                             <div class="col-md-5">
-                                                <button class="form-control btn btn-default" type="button"
+                                                <button class="form-control btn btn-default" disabled="disabled" type="button"
                                                         id="bank_SendCode">获取验证码
                                                 </button>
                                             </div>

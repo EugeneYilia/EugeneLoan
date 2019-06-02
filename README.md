@@ -25,6 +25,9 @@
         - 异步处理通知消息
 - resources:
     1. 将用户中心，借入，借出放入到保护资源中        
+- nginx:
+    1. 反向代理、负载均衡
+        
 ### 端口号的具体配置
 - 2181:zookeeper kafka注册时使用  kafka-server consumer producer都将自己注册到zookeeper上去
 - 9092:kafka server       
@@ -32,3 +35,9 @@
 
 ### TODO
 - 增加对象存储服务器，减小主业务服务器的资源负载压力
+
+
+#### 不是必要看的东西
+1. nginx会将/static/静态资源中不存在的资源将其代理到配置好的404.html上  
+   对于非/static/开头的资源中的不存在的资源路径都是由springboot程序决定返回的404页面是什么
+2.   

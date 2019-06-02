@@ -1,12 +1,11 @@
 		$("#borrower_btn").click(function(){
 			$("#borrower_btn").attr("value",0);
-			$("#borrower_btn").attr("background-color","green");
-			$("#lender_btn").attr("background-color","transparent");
-			alert($("#borrower_btn").val());
+			$("#borrower_btn").addClass("btn-success");			
+			$("#lender_btn").removeClass("btn-success");
+			
 		});
 		$("#lender_btn").click(function(){
 			$("#borrower_btn").attr("value",1);
-			$("#lender_btn").attr("background-color","green");
-			$("#borrower_btn").attr("background-color","transparent");
-			alert($("#borrower_btn").val());
+			$("#lender_btn").addClass("btn-success");			
+			$("#borrower_btn").removeClass("btn-success");
 		});

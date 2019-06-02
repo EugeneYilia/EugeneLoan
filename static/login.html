@@ -29,7 +29,6 @@
             <div class="wizard-container">
 
                 <div class="card wizard-card" data-color="green" id="wizardProfile">
-                    <form action="/indentity/all/login" method="post" enctype="multipart/form-data">
                     	<div class="wizard-header">
                         	<h3>
                         	   <b>LOG</b> YOUR ACCOUNT <br>
@@ -38,14 +37,14 @@
                     	</div>
 
                         <div class="tab-content">
-                
+							<form action="#" method="post" enctype="multipart/form-data">
                               <div class="row">
                                     <h4 class="info-text"> 登录</h4>
                                     <div class="col-sm-8 col-sm-offset-2">
                                         <div class="form-group">
                                             <div class="form-group col-md-12">
                                                 <label> 请输入手机号 </label>
-                                                <input name="phone_num" type="text" class="form-control" id="phone_num" placeholder="默认为11位">
+                                                <input name="phone_number" type="text" class="form-control" id="phone_number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="默认为11位">
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -55,22 +54,22 @@
                                 
                                         <div class="form-group col-md-12 col-md-offset-1">
                                             <div class="checkbox">
-                                                <input type="checkbox" id="remember" name="remember">
+                                                <input type="checkbox" id="remember" >
                                                 <label for="remember">Remember me</label>
                                             </div>
                                         </div>
 										<div class="form-group" style="text-align:center;">
                                             <div class="col-md-12">
-                                                <button type="submit" class="btn btn-success col-md-12 " id="login_btn">登录
+                                                <button type="button" class="btn btn-success col-md-12 " id="login_btn">登录
                                                 </button>
                                             </div>
                                         </div>
                                   </div>
                               </div>
-                 
-          
+							  
+							  
+							</form>
                         </div>
-                    </form>
                 </div>
             </div> <!-- wizard container -->
         </div>
@@ -92,5 +91,5 @@
 	<script src="js/jquery.validate.min.js"></script>
     <script src="js/addvalidator.js"></script>
     <script src="js/luhmCheck.js"></script>
-
+	<script src="js/login.js"></script>
 </html>

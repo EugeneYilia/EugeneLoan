@@ -60,12 +60,20 @@ $(document).ready(function(){
                 minlength: 6,
                 maxlength: 20,
                 checkPassword:true,
-            }
+            },
+			user_type: {
+				required: true,
+			},
+			phone_number: {
+                required: true,
+                isPhoneNumber:true,
+				isunRegisted:true,
+            },
         },
         messages: {
             phone_num: {
                 required: "手机号不能为空",
-                isPhoneNumber:"手机号不符合格式要求",
+                isPhoneNumber:"请输入正确格式手机号",
 				isRegisted:"该手机号已注册"
             },
             password_1: {
@@ -114,7 +122,15 @@ $(document).ready(function(){
                 minlength: "密码长度不能少于6个字符",
                 maxlength: "密码长度不能超过20个字符",
                 checkPassword: "密码必须包含字母和数字，字母区分大小写"
-            }
+            },
+			user_type: {
+                required: "密码不能为空",
+            },
+			phone_number: {
+                required: "手机号不能为空",
+                isPhoneNumber:"请输入正确格式手机号",
+				isunRegisted:"该手机号未注册"
+            },
         }
 	});
 

@@ -1,7 +1,12 @@
 //手机号
 $.validator.addMethod("isPhoneNumber",function (value,element) {
     var length = value.length;
-    return this.optional(element) || (length === 11 && /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value));
+	var res = (length ===  11 && /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value));
+	if(res == false){
+		$("#btnSendCode").attr("disabled", "disabled");
+        $("#bk_yzm").attr("disabled", "disabled");            
+	}
+    return this.optional(element) || res;
 });
 
 //密码
@@ -21,10 +26,15 @@ $.validator.addMethod("isChinese", function (value, element) {
 
 // 银行卡号码验证
 $.validator.addMethod("isBankCardNo", function (value, element) {
-    return this.optional(element) || isBankCardNo(value);
+	var res = isBankCardNo(value);
+	if (isBankCardNo(value)== false){
+		$("#bank_SendCode").attr("disabled","disabled");
+		$("#bk_yzm").attr("disabled","disabled");
+	}
+    return this.optional(element) || res;
 });
 
-// 手机号是否已注册验证
+// 注册时手机号是否已注册验证
 $.validator.addMethod("isRegisted", function (value, element) {
     var phone_number = $("#phone_num").val();
     var res = false;
@@ -50,6 +60,36 @@ $.validator.addMethod("isRegisted", function (value, element) {
             },
             error: function () {
                 $("#btnSendCode").attr("disabled", "disabled");
+                res = false;
+            }
+        })
+    }
+    return this.optional(element) || res;
+});
+
+// 登录时手机号是否已注册验证
+$.validator.addMethod("isunRegisted", function (value, element) {
+    var phone_number = $("#phone_number").val();
+    var res = false;
+    if(phone_number.length ==11 && /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(phone_number)) {
+		$.ajax({
+            type: "POST",
+            url: "/information/all/checkPhoneNumber",
+            contentType: "application/json; charset=utf-8",
+			async: false,
+            data: JSON.stringify({
+                "phone_number": phone_number
+            }),
+            dataType: "json",
+            success: function (message) {
+                if (message.state == "unregister") {
+
+                    res = false;
+                } else {
+                    res = true;
+                }
+            },
+            error: function () {
                 res = false;
             }
         })
@@ -111,13 +151,16 @@ $(document).ready(function () {
 		function settime(obj){
             if (time===0) {
 				$("#phone_num").attr('disabled',false);
+				$("#yzm").attr("value","");
+				$("#yzm").attr('disabled','disabled');
                 $(obj).attr('disabled', false);
                 $(obj).html("重新获取");
                 time = 60;
                 return;
             } else{
-				$("#phone_num").attr('disabled',true);
-                $(obj).attr('disabled', true);
+				$("#phone_num").attr('disabled','disabled');
+				$("#yzm").attr('disabled',false);
+                $(obj).attr('disabled', 'disabled');
                 $(obj).html(time+"秒重新发送");
                 time--;                
 				}
@@ -156,13 +199,15 @@ $(document).ready(function () {
               if (time===0) {
 				$("#bank_number").attr('disabled',false);
                 $(obj).attr('disabled', false);
-
+				$("#bk_yzm").attr('value',""); 
+				$("#bk_yzm").attr('disabled',true);
                 $(obj).html("重新获取");
                 time = 60;
                 return;
             } else{
 				$("#bank_number").attr('disabled',true);
                 $(obj).attr('disabled', true);
+				$("#bk_yzm").attr('disabled',false);
                 $(obj).html(time+"秒重新发送");
                 time--;                
 				}
