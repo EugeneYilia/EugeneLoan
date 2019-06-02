@@ -23,6 +23,12 @@
         key作为文件名，value作为日志内容
     3. notification
         - 异步处理通知消息
+- resources:
+    1. 将用户中心，借入，借出放入到保护资源中        
 ### 端口号的具体配置
 - 2181:zookeeper kafka注册时使用  kafka-server consumer producer都将自己注册到zookeeper上去
 - 9092:kafka server       
+
+
+### TODO
+- 增加对象存储服务器，减小主业务服务器的资源负载压力

@@ -16,5 +16,5 @@ import java.util.List;
  */
 
 public interface IUser_required_infoService extends IService<User_required_info> {
-    List<User_required_info> checkIdentity(String phoneNumber,String password);
+    User_required_info checkIdentity(String phoneNumber,String password);
 }

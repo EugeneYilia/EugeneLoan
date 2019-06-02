@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,6 +20,21 @@ public class LenderController {
     @ApiOperation(value = "获取借出方个人信息",notes = "请求该url，返回借出者用户信息的json")
     @GetMapping(value = "/lender/information")
     public String getInformation(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+
+//        Cookie[] cookies = httpServletRequest.getCookies();
+//        for (Cookie cookie : cookies) {
+//            if (cookie.getName().equals("id_card")) {
+//                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+//                    return true;
+//                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+//                    response.sendRedirect("/resources/login");
+//                    return false;
+//                }
+//            }
+//        }
+//        //请求中不包含id_card这个cookie，进行重定向，并且拦截下来
+//        response.sendRedirect("/resources/login");
+//        return false;
 
         httpServletResponse.setContentType("application/json;charset=UTF-8");
         return "{'phone_number':'successful'," +

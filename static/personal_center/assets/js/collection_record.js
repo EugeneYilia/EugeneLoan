@@ -2,7 +2,7 @@ $(#repayment_record).DateTable ({
 	"autoWidth": false,
 	"serverSide": true,
 	"ajax": {
-		url: "/trade/borrower/loan"
+		url: "/trade/lender/loan"
 		method: "POST",
 		data: {
 			"bill_id": $('#bill_id').val(),

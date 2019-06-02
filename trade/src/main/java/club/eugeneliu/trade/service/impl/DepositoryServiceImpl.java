@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @author EugeneLiu
  * @since 2019-05-27
  */
-@Service
+@Service("depositoryService")
 public class DepositoryServiceImpl extends ServiceImpl<DepositoryMapper, Depository> implements IDepositoryService {
 
     @Autowired

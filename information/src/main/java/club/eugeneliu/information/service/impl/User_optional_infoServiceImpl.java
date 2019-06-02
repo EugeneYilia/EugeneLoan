@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author EugeneLiu
@@ -24,7 +24,37 @@ public class User_optional_infoServiceImpl extends ServiceImpl<User_optional_inf
     @Override
     public boolean insertUserOptionalInfo(String id_card) {
         int result = user_optional_infoMapper.insertUserOptionalInfo(id_card);
-        if(result == 1){
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateUserOptionalInfo(User_optional_info user_optional_info) {
+        int result = user_optional_infoMapper.updateUserOptionalInfo(user_optional_info);
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateAvatar(Object avatar, String id_card) {
+        int result = user_optional_infoMapper.updateAvatar(avatar, id_card);
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateSpecialIdentity(String special_identity, String id_card) {
+        int result = user_optional_infoMapper.updateSpecialIdentity(special_identity, id_card);
+        if (result == 1) {
             return true;
         } else {
             return false;

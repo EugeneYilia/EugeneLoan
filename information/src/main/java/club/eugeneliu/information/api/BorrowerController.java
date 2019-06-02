@@ -1,9 +1,11 @@
 package club.eugeneliu.information.api;
 
+import club.eugeneliu.information.service.IUser_required_infoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,16 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Map;
 
 @Api("借入者信息控制器")
 @RestController
 @RequestMapping("/information")
 public class BorrowerController {
-    @ApiOperation(value = "获取借入方个人信息",notes = "请求该url，返回借入者用户信息的json")
-    @GetMapping(value = "/borrower/information")
-    public String getInformation(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
+    @Autowired
+    IUser_required_infoService iUser_required_infoService;
+
+    @ApiOperation(value = "获取借入方个人信息",notes = "请求该url，返回借入者用户信息的json")
+    @GetMapping(value = "/borrower/information",produces = "application/json;charset=UTF-8")
+    public String getInformation(){
+
         return "{'phone_number':'successful'," +
                 "'user_name':'successful'," +
                 "'sex':'successful',"+

@@ -24,7 +24,7 @@ public class LogUtil {
         producer = new KafkaProducer<String, String>(properties);
     }
 
-    private void log(String theme, String content) {
+    public static void log(String theme, String content) {
         producer.send(new ProducerRecord<>(TOPIC, theme, content));
     }
 

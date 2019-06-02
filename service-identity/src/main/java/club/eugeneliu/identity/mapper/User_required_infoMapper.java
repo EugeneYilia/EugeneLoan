@@ -17,6 +17,6 @@ import java.util.List;
  */
 @Component
 public interface User_required_infoMapper extends BaseMapper<User_required_info> {
-    List<User_required_info> checkIdentity(@Param("phone_number") String phoneNumber,@Param("password") String password);
+    User_required_info checkIdentity(@Param("phone_number") String phoneNumber,@Param("password") String password);
 
 }

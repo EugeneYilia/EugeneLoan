@@ -26,6 +26,7 @@ public class RegisterMq {
 
     public static void send(String identity, String id_card) {
         producer.send(new ProducerRecord<>(TOPIC, identity, id_card));
+        producer.flush();
     }
 
 }

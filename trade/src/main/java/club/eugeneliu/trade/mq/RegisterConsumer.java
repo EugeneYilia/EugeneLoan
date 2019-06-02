@@ -1,5 +1,6 @@
 package club.eugeneliu.trade.mq;
 
+import club.eugeneliu.trade.connection.DatabaseConnection;
 import club.eugeneliu.trade.entity.Borrower_account;
 import club.eugeneliu.trade.entity.Depository;
 import club.eugeneliu.trade.entity.Lender_account;
@@ -9,9 +10,11 @@ import club.eugeneliu.trade.service.ILender_accountService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -21,17 +24,19 @@ public class RegisterConsumer implements Runnable {
     public static final String BORROWER = "0";
     public static final String LENDER = "1";
 
-    @Autowired
     IDepositoryService iDepositoryService;
 
-    @Autowired
     ILender_accountService iLender_accountService;
 
-    @Autowired
     IBorrower_accountService iBorrower_accountService;
 
 
-    private RegisterConsumer() {
+//    public RegisterConsumer(IDepositoryService iDepositoryService,ILender_accountService iLender_accountService,IBorrower_accountService iBorrower_accountService) {
+//        this.iDepositoryService = iDepositoryService;
+//        this.iLender_accountService = iLender_accountService;
+//        this.iBorrower_accountService = iBorrower_accountService;
+
+    public RegisterConsumer() {
         Properties properties = new Properties();
         properties.put("bootstrap.servers", "192.168.0.163:9092");
         properties.put("group.id", "register");//消费者指定组，名称可以随意，注意相同消费组中的消费者只能对同一个分区消费一次
@@ -66,7 +71,7 @@ public class RegisterConsumer implements Runnable {
         BufferedWriter bufferedWriter = null;
         try {
             bufferedWriter = new BufferedWriter(new FileWriter(new File("/home/eugeneliu/EEugeneSoft/EugeneLoan/tmp/depository")));
-            bufferedWriter.write((temp_content + 1));
+            bufferedWriter.write(String.valueOf(temp_content + 1));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -128,43 +133,85 @@ public class RegisterConsumer implements Runnable {
 
     public void run() {
         kafkaConsumer.subscribe(Arrays.asList("register"));
+        System.out.println("trade模块的kafka--register topic监听器开始监听消息");
         while (true) {
+//            System.out.println(1);
             ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(100);
+//            System.out.println(consumerRecords.count());
             for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
                 String id_card = consumerRecord.value();
+                System.out.println("收到" + id_card + "的开户消息");
+
+//                LogUtil.log("trade","收到"+id_card+"的开户消息");//写入到消息队列进行异步消息记录
+                Connection connection = DatabaseConnection.getConnection();
+                Statement statement = null;
+                try {
+                    statement = connection.createStatement();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 if (consumerRecord.key().equals(BORROWER)) {
                     //执行开户操作，并将开户结果保存到数据库中
                     Depository depository = openDeposit(id_card);
-                    boolean result1 = iDepositoryService.insertDepository(depository);
-                    Borrower_account borrower_account = new Borrower_account();
-                    int credit_score = getCreditScore(id_card);
-                    int total_limit = getTotalLimit(credit_score);
-                    borrower_account.setAccount_balance(0.0);
-                    borrower_account.setAvailable_limit((double) total_limit);
-                    borrower_account.setId_card(id_card);
-                    borrower_account.setTotal_limit((double) total_limit);
-                    borrower_account.setFunds_account(depository.getFunds_account());
-                    borrower_account.setCredit_score(credit_score);
-                    borrower_account.setBorrowed_money(0.0);
-                    boolean result2 = iBorrower_accountService.insertBorrower(borrower_account);
-                    if (result1 && result2) {
-                        System.out.println(id_card + "注册成功借入者身份");
+//                    IDepositoryService iDepositoryService = (IDepositoryService) AppBeanUtil.getBean("depositoryService");
+//                    boolean result1 = iDepositoryService.insertDepository(depository);
+                    try {
+                        String sql = "insert into depository(funds_account,depository_account) values(" + depository.getFunds_account() + "," + depository.getDepository_account() + ")";
+                        boolean result1 = statement.execute(sql);
+                        Borrower_account borrower_account = new Borrower_account();
+                        int credit_score = getCreditScore(id_card);
+                        int total_limit = getTotalLimit(credit_score);
+                        borrower_account.setAccount_balance(0.0);
+                        borrower_account.setAvailable_limit((double) total_limit);
+                        borrower_account.setId_card(id_card);
+                        borrower_account.setTotal_limit((double) total_limit);
+                        borrower_account.setFunds_account(depository.getFunds_account());
+                        borrower_account.setCredit_score(credit_score);
+                        borrower_account.setBorrowed_money(0.0);
+//                    IBorrower_accountService iBorrower_accountService = (IBorrower_accountService)(AppBeanUtil.getBean("lender_accountService"));
+//                        boolean result2 = iBorrower_accountService.insertBorrower(borrower_account);
+                        String sql2 = "insert into borrower_account(funds_account,id_card,account_balance,borrowed_money,credit_score,total_limit,available_limit) values("+
+                                borrower_account.getFunds_account()+","+borrower_account.getId_card()+","+borrower_account.getAccount_balance()+","+borrower_account.getBorrowed_money()+","+borrower_account.getCredit_score()+","+borrower_account.getTotal_limit()+","+borrower_account.getAvailable_limit()+")";
+                        boolean result2 = statement.execute(sql2);
+                        if (result1 && result2) {
+                            System.out.println(id_card + "注册成功借入者身份");
+                        }
+                    } catch (SQLException e){
+                        e.printStackTrace();
                     }
                 } else if (consumerRecord.key().equals(LENDER)) {
                     //执行开户操作，并将开户结果保存到数据库中
                     Depository depository = openDeposit(id_card);
-                    boolean result1 = iDepositoryService.insertDepository(depository);
-                    Lender_account lender_account = new Lender_account();
-                    lender_account.setFunds_account(depository.getFunds_account());
-                    lender_account.setId_card(id_card);
-                    lender_account.setAccount_balance(0.00);
-                    lender_account.setCurrent_income(0.00);
-                    lender_account.setExpected_income(0.00);
-                    lender_account.setLent_money(0.00);
-                    boolean result2 = iLender_accountService.insertLender(lender_account);
-                    if (result1 && result2) {
-                        System.out.println(id_card + "注册成功借出者身份");
+//                    IDepositoryService iDepositoryService = (IDepositoryService) AppBeanUtil.getBean("depositoryService");
+//                    boolean result1 = iDepositoryService.insertDepository(depository);
+                    try {
+                        String sql = "insert into depository(funds_account,depository_account) values(" + depository.getFunds_account() + "," + depository.getDepository_account() + ")";
+                        boolean result1 = statement.execute(sql);
+                        Lender_account lender_account = new Lender_account();
+                        lender_account.setFunds_account(depository.getFunds_account());
+                        lender_account.setId_card(id_card);
+                        lender_account.setAccount_balance(0.00);
+                        lender_account.setCurrent_income(0.00);
+                        lender_account.setExpected_income(0.00);
+                        lender_account.setLent_money(0.00);
+
+//                    ILender_accountService iLender_accountService = (ILender_accountService)(AppBeanUtil.getBean("lender_accountService"));
+//                        boolean result2 = iLender_accountService.insertLender(lender_account);
+                        String sql2 = "insert into lender_account(funds_account,id_card,account_balance,lent_money,current_income,expected_income) values("+
+                                lender_account.getFunds_account()+","+lender_account.getId_card()+","+lender_account.getAccount_balance()+","+lender_account.getLent_money()+","+lender_account.getCurrent_income()+","+lender_account.getExpected_income()+")";
+                        boolean result2 = statement.execute(sql2);
+                        if (result1 && result2) {
+                            System.out.println(id_card + "注册成功借出者身份");
+                        }
+                    }catch (SQLException e){
+                        e.printStackTrace();
                     }
+                }
+                try{
+                    statement.close();
+                    connection.close();
+                } catch (SQLException e){
+                    e.printStackTrace();
                 }
 //                System.out.printf("offset = %d , key = %s , value = %s%n",consumerRecord.offset(),consumerRecord.key(),consumerRecord.value());
             }

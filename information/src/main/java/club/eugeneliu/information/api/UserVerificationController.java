@@ -67,16 +67,16 @@ public class UserVerificationController {
 
         // 默认检验成功
         JSONObject result = new JSONObject();
-        result.put("state","error");
+        result.put("state","successful");
         return result.toJSONString();
     }
 
     @ApiImplicitParam(name="phone_number",value = "用户手机号",required = true,dataType = "String")
     @ApiOperation(value = "验证银行卡预留手机",notes = "发送验证码验证该银行卡对应的预留手机号")
     @PostMapping(value = "/all/sendCheckCode2",produces = "application/json;charset=UTF-8")
-    public String sendCheckCode2(@RequestBody Map objects){
-        String phoneNumber = (String)objects.get("phone_number");
-        System.out.println(phoneNumber);
+    public String sendCheckCode2(@RequestBody Map objects){//收到银行卡后，然后把银行卡发给银行，银行发送验证码，我们也可以得到验证码，之后对验证码进行核实
+        String bank_account = (String)objects.get("bank_account");
+        System.out.println(bank_account);
         // --------->Send CheckCode
 
         // 默认发送成功

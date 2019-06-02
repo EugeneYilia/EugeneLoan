@@ -26,26 +26,34 @@ $.validator.addMethod("isBankCardNo", function (value, element) {
 
 // 手机号是否已注册验证
 $.validator.addMethod("isRegisted", function (value, element) {
-		var res = true;
-	     $.ajax({
-        type: "POST",
-		url: "/information/all/checkPhoneNumber",
-		contentType: "application/json; charset=utf-8",
-		data: JSON.stringify({
-			"phone_number": $("#phone_num").val()
-		}),
-        dataType: "json",
-        success: function (message) {
-            if (message.state == "unregister" ) {
-               res = true;
-            }else{
-				res = false;
-			}
-        },
-        error: function () {
-				res = false;
-        }
-		})
+    var phone_number = $("#phone_num").val();
+    var res = false;
+    if(phone_number.length ==11 && /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(phone_number)) {
+        $.ajax({
+            type: "POST",
+            url: "/information/all/checkPhoneNumber",
+            contentType: "application/json; charset=utf-8",
+			async: false,
+            data: JSON.stringify({
+                "phone_number": $("#phone_num").val()
+            }),
+            dataType: "json",
+            success: function (message) {
+                if (message.state == "unregister") {
+					
+                    $("#btnSendCode").attr("disabled", false);
+                    res = true;
+                } else {
+                    $("#btnSendCode").attr("disabled", "disabled");
+                    res = false;
+                }
+            },
+            error: function () {
+                $("#btnSendCode").attr("disabled", "disabled");
+                res = false;
+            }
+        })
+    }
     return this.optional(element) || res;
 });
 
@@ -57,6 +65,7 @@ $.validator.addMethod("isCodeRight", function (value, element) {
         type: "POST",
         url: "/information/all/checkCheckCode",
         contentType: "application/json; charset=utf-8",
+		async:false,
         data: JSON.stringify({
 			"check_code": value
         }),
@@ -121,12 +130,13 @@ $(document).ready(function () {
 				type: "POST",
 				url: "/information/all/sendCheckCode",
 				contentType: "application/json; charset=utf-8",
+				async:false,
 				data: JSON.stringify({
 				"phone_number": $("#phone_num").val()
 				}),
 				dataType: "json",
 					success: function (message) {
-					if (message.state == "unregister" ) {
+					if (message.state == "successful" ) {
 						settime($("#btnSendCode"));
 					}					
 				},
@@ -142,16 +152,16 @@ $(document).ready(function () {
     $("#bank_SendCode").click(function () {
 		var bank_account = $("#bank_number").val();
         var time = 60;
-        settime($(this));
         function settime(obj){
               if (time===0) {
-				$("#id_card").attr('disabled',false);
+				$("#bank_number").attr('disabled',false);
                 $(obj).attr('disabled', false);
+
                 $(obj).html("重新获取");
                 time = 60;
                 return;
             } else{
-				$("#id_card").attr('disabled',true);
+				$("#bank_number").attr('disabled',true);
                 $(obj).attr('disabled', true);
                 $(obj).html(time+"秒重新发送");
                 time--;                
@@ -164,6 +174,7 @@ $(document).ready(function () {
 			if(isBankCardNo(bank_account)){
 				$.ajax({
 				type: "POST",
+				async:false,
 				url: "/information/all/sendCheckCode2",
 				contentType: "application/json; charset=utf-8",
 				data: JSON.stringify({
@@ -172,11 +183,11 @@ $(document).ready(function () {
 				dataType: "json",
 					success: function (message) {
 					if (message.state == "successful" ) {
-						settime($("#btnSendCode"));
+						settime($("#bank_SendCode"));
 					}	
 				},
 				error: function () {
-						
+                    $("#bank_SendCode").html("发送失败，点击重新获取");
 				}
 			})
 		}
@@ -193,7 +204,7 @@ $(document).ready(function () {
         data: JSON.stringify({
             "phone_number": $("#phone_num").val(),
             "password": $("#password_1").val(),
-            "user_type": $('#user_type option:selected').val(),
+            "user_type": $('#borrower_btn').val(),
             "user_name": $("#user_name").val(),
             "id_card": $("#id_card").val(),
             "bank_account": $("#bank_number").val(),
@@ -212,6 +223,7 @@ $(document).ready(function () {
 		})
     })
 });
+
 
 
 

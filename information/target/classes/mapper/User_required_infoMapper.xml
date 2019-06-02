@@ -11,12 +11,41 @@
         <result column="user_type" property="user_type" />
         <result column="password" property="password" />
     </resultMap>
+
+    <resultMap id="UserInfoMap" type="club.eugeneliu.information.entity.UserInfo">
+        <id column="id_card" property="id_card"/>
+        <result column="sex" property="sex"/>
+        <result column="educational_level" property="educational_level"/>
+        <result column="marriage" property="marriage"/>
+        <result column="profession" property="profession"/>
+        <result column="address" property="address"/>
+        <result column="avatar" property="avatar"/>
+        <result column="special_identity" property="special_identity"/>
+        <result column="phone_number" property="phone_number"/>
+        <result column="user_name" property="user_name"/>
+        <result column="bank_account" property="bank_account"/>
+        <result column="user_type" property="user_type"/>
+        <result column="password" property="password"/>
+    </resultMap>
+
     <insert id="insertUserRequiredInfo" parameterType="club.eugeneliu.information.entity.User_required_info">
         insert into user_required_info(phone_number,id_card,user_name,bank_account,user_type,password)
-        value
+        values
         (#{phone_number},#{id_card},#{user_name},#{bank_account},#{user_type},#{password});
     </insert>
     <select id="checkIsRegistered" parameterType="java.lang.String" resultType="Integer">
         select count(*) from user_required_info where phone_number = #{phone_number};
+    </select>
+    <update id="updateUserName">
+        update user_required_info set user_name = #{user_name} where id_card = #{id_card}
+    </update>
+    <update id="updateUserPhoneNumber">
+        update user_required_info set phone_number = #{phone_number} where id_card = #{id_card}
+    </update>
+    <update id="updateUserPassword">
+        update user_required_info set password = #{password} where id_card = #{id_card}
+    </update>
+    <select id="selectUserInfo" parameterType="java.lang.String" resultMap="UserInfoMap">
+        select * from user_required_info natural join user_optional_info where id_card = #{id_card}
     </select>
 </mapper>

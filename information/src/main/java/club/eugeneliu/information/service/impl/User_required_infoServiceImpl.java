@@ -1,5 +1,6 @@
 package club.eugeneliu.information.service.impl;
 
+import club.eugeneliu.information.entity.UserInfo;
 import club.eugeneliu.information.entity.User_required_info;
 import club.eugeneliu.information.mapper.User_required_infoMapper;
 import club.eugeneliu.information.service.IUser_required_infoService;
@@ -42,8 +43,8 @@ public class User_required_infoServiceImpl extends ServiceImpl<User_required_inf
     }
 
     @Override
-    public boolean updateUserName(String user_name) {
-        int result = user_required_infoMapper.updateUserName(user_name);
+    public boolean updateUserName(String user_name, String id_card) {
+        int result = user_required_infoMapper.updateUserName(user_name, id_card);
         if (result == 1) {
             return true;
         } else {
@@ -52,8 +53,8 @@ public class User_required_infoServiceImpl extends ServiceImpl<User_required_inf
     }
 
     @Override
-    public boolean updateUserPhoneNumber(String phone_number) {
-        int result = user_required_infoMapper.updateUserPhoneNumber(phone_number);
+    public boolean updateUserPhoneNumber(String phone_number, String id_card) {
+        int result = user_required_infoMapper.updateUserPhoneNumber(phone_number, id_card);
         if (result == 1) {
             return true;
         } else {
@@ -62,12 +63,18 @@ public class User_required_infoServiceImpl extends ServiceImpl<User_required_inf
     }
 
     @Override
-    public boolean updateUserPassword(String password) {
-        int result = user_required_infoMapper.updateUserPassword(password);
+    public boolean updateUserPassword(String password, String id_card) {
+        int result = user_required_infoMapper.updateUserPassword(password, id_card);
         if (result == 1) {
             return true;
         } else {
             return false;
         }
     }
+
+    @Override
+    public UserInfo selectUserIfo(String id_card) {
+        return user_required_infoMapper.selectUserInfo(id_card);
+    }
+
 }

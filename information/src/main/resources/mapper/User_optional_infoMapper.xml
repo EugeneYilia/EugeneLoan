@@ -24,7 +24,7 @@
     <update id="updateAvatar" parameterType="club.eugeneliu.information.entity.User_optional_info">
         update user_optional_info set avatar = #{avatar} where id_card = #{id_card}
     </update>
-    <update id="updateSpecialIdentity" parameterType="club.eugeneliu.information.entity.User_optional_info">
+    <update id="updateSpecialIdentity">
         update user_optional_info set special_identity = #{special_identity} where id_card = #{id_card}
     </update>
 </mapper>

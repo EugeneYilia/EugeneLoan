@@ -1,7 +1,7 @@
 $(function(){
    $.ajax({
        type: "get",
-       url: "unfinishtraderecord.json",
+       url: "/trade/borrower/unfinishedLoan",
        dataType: "json",
        success: function (res) {
            var list = res;

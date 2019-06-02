@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @author EugeneLiu
  * @since 2019-05-27
  */
-@Service
+@Service("borrower_accountService")
 public class Borrower_accountServiceImpl extends ServiceImpl<Borrower_accountMapper, Borrower_account> implements IBorrower_accountService {
 
     @Autowired

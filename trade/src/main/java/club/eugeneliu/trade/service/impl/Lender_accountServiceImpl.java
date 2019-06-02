@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @author EugeneLiu
  * @since 2019-05-27
  */
-@Service
+@Service("lender_accountService")
 public class Lender_accountServiceImpl extends ServiceImpl<Lender_accountMapper, Lender_account> implements ILender_accountService {
 
     @Autowired

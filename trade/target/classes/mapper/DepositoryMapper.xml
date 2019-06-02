@@ -7,5 +7,10 @@
         <id column="funds_account" property="funds_account" />
         <result column="depository_account" property="depository_account" />
     </resultMap>
+    <insert id="insertDepository" parameterType="club.eugeneliu.trade.entity.Depository">
+        insert into depository(funds_account,depository_account)
+        values
+        (#{funds_account},#{depository_account});
+    </insert>
 
 </mapper>

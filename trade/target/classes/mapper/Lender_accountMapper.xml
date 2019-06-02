@@ -11,5 +11,9 @@
         <result column="current_income" property="current_income" />
         <result column="expected_income" property="expected_income" />
     </resultMap>
-
+    <insert id="insertLender" parameterType="club.eugeneliu.trade.entity.Lender_account">
+        insert into lender_account (funds_account,id_card,account_balance,lent_money,current_income,expected_income)
+        values
+         (#{funds_account},#{id_card},#{account_balance},#{lent_money},#{current_income},#{expected_income});
+    </insert>
 </mapper>

@@ -12,5 +12,9 @@
         <result column="total_limit" property="total_limit" />
         <result column="available_limit" property="available_limit" />
     </resultMap>
-
+    <insert id="insertBorrower" parameterType="club.eugeneliu.trade.entity.Borrower_account">
+        insert into lender_account (funds_account,id_card,account_balance,borrowed_money,credit_score,total_limit,available_limit)
+        values
+         (#{funds_account},#{id_card},#{account_balance},#{borrowed_money},#{credit_score},#{total_limit},#{available_limit});
+    </insert>
 </mapper>

@@ -24,12 +24,7 @@ public class User_required_infoServiceImpl extends ServiceImpl<User_required_inf
     private User_required_infoMapper user_required_infoMapper;
 
     @Override
-    public boolean checkIdentity(String phoneNumber, String password) {
-        int result = user_required_infoMapper.checkIdentity(phoneNumber,password);
-        if(result == 1){
-            return true;
-        } else {
-            return false;
-        }
+    public User_required_info checkIdentity(String phoneNumber, String password) {
+        return user_required_infoMapper.checkIdentity(phoneNumber,password);
     }
 }
