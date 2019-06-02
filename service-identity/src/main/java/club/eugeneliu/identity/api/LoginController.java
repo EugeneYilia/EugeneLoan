@@ -9,16 +9,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 @Api("登录控制器")
 @Controller
@@ -35,9 +33,9 @@ public class LoginController {
     @ApiOperation(value = "验证用户信息", notes = "验证用户的身份，如果登陆成功，生成session，之后这个模块作为身份验证服务,成功就跳转到首页否则返回json告诉登录失败")
     @PostMapping(value = "/all/login",produces = "application/json;charset=UTF-8")
     @ResponseBody()
-    public String userLogin(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String phoneNumber = httpServletRequest.getParameter("phone_number");
-        String password = httpServletRequest.getParameter("password");
+    public String userLogin(@RequestBody Map objects,HttpServletResponse httpServletResponse) {
+        String phoneNumber = (String) objects.get("phone_number");
+        String password = (String) objects.get("password");
 
         System.out.println(phoneNumber);
         System.out.println(password);

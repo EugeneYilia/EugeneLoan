@@ -15,20 +15,20 @@
             if (message.state != -1 ) {
 				if(message.state == 0){
 					alert("借入者登录成功！");
-					location.href = "/borrower/index_borrower.html";
+					location.href = "/static/borrower/index_borrower.html";
 				}else{
 					alert("借出者登录成功！");
-					location.href = "/lender/index_lender.html";
+					location.href = "/static/lender/index_lender.html";
 				}
             }
 			else{
 				alert("登录失败，请重新登录~");
-				location.href = "login.html";
+				location.href = "/static/login.html";
 			}
         },
         error: function () {
             alert("登录失败，请重新登录~");
-			location.href = "login.html";		
+			location.href = "/static/login.html";
         }
 		})
     });
