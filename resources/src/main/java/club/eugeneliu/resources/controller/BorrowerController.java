@@ -18,23 +18,25 @@ public class BorrowerController {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
-                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+                if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {//身份符合
                             return "/borrower/borrow";
-                        } else {
+                        } else {//身份不符合
                             return "/AccessDenied";
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+                } else {//cookie中有user_type值为null，返回未授权的页面
                     return "/AccessDenied";
                 }
             }
 
         }
-        //有cookies但是无id_card这个cookie，进行页面跳转
+        //有cookies但是无user_type这个cookie，进行页面跳转
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
         return "/AccessDenied";
     }
 
@@ -43,7 +45,7 @@ public class BorrowerController {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
-                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+                if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
                         if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
                             return "/borrower/business_intro";
@@ -53,13 +55,14 @@ public class BorrowerController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+                } else {//cookie中有user_type值为null，返回未授权的页面
                     return "/AccessDenied";
                 }
             }
 
         }
-        //有cookies但是无id_card这个cookie，进行页面跳转
+        //有cookies但是无user_type这个cookie，进行页面跳转
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
         return "/AccessDenied";
     }
 
@@ -68,7 +71,7 @@ public class BorrowerController {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
-                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+                if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
                         if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
                             return "/borrower/finished_funds_record";
@@ -78,13 +81,14 @@ public class BorrowerController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+                } else {//cookie中有user_type值为null，返回未授权的页面
                     return "/AccessDenied";
                 }
             }
 
         }
-        //有cookies但是无id_card这个cookie，进行页面跳转
+        //有cookies但是无user_type这个cookie，进行页面跳转
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
         return "/AccessDenied";
     }
 
@@ -93,7 +97,7 @@ public class BorrowerController {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
-                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+                if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
                         if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
                             return "/borrower/fund_account";
@@ -103,13 +107,14 @@ public class BorrowerController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+                } else {//cookie中有user_type值为null，返回未授权的页面
                     return "/AccessDenied";
                 }
             }
 
         }
-        //有cookies但是无id_card这个cookie，进行页面跳转
+        //有cookies但是无user_type这个cookie，进行页面跳转
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
         return "/AccessDenied";
     }
 
@@ -118,7 +123,7 @@ public class BorrowerController {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
-                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+                if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
                         if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
                             return "/borrower/index_borrower";
@@ -128,13 +133,14 @@ public class BorrowerController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+                } else {//cookie中有user_type值为null，返回未授权的页面
                     return "/AccessDenied";
                 }
             }
 
         }
-        //有cookies但是无id_card这个cookie，进行页面跳转
+        //有cookies但是无user_type这个cookie，进行页面跳转
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
         return "/AccessDenied";
     }
 
@@ -143,7 +149,7 @@ public class BorrowerController {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
-                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+                if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
                         if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
                             return "/borrower/repayment_record";
@@ -153,13 +159,14 @@ public class BorrowerController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+                } else {//cookie中有user_type值为null，返回未授权的页面
                     return "/AccessDenied";
                 }
             }
 
         }
-        //有cookies但是无id_card这个cookie，进行页面跳转
+        //有cookies但是无user_type这个cookie，进行页面跳转
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
         return "/AccessDenied";
     }
 
@@ -168,7 +175,7 @@ public class BorrowerController {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
-                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+                if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
                         if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
                             return "/borrower/special_certification";
@@ -178,13 +185,14 @@ public class BorrowerController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+                } else {//cookie中有user_type值为null，返回未授权的页面
                     return "/AccessDenied";
                 }
             }
 
         }
-        //有cookies但是无id_card这个cookie，进行页面跳转
+        //有cookies但是无user_type这个cookie，进行页面跳转
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
         return "/AccessDenied";
     }
 
@@ -193,7 +201,7 @@ public class BorrowerController {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
-                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+                if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
                         if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
                             return "/borrower/unfinished_funds_record";
@@ -203,13 +211,14 @@ public class BorrowerController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+                } else {//cookie中有user_type值为null，返回未授权的页面
                     return "/AccessDenied";
                 }
             }
 
         }
-        //有cookies但是无id_card这个cookie，进行页面跳转
+        //有cookies但是无user_type这个cookie，进行页面跳转
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
         return "/AccessDenied";
     }
 
@@ -218,7 +227,7 @@ public class BorrowerController {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
-                if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
+                if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
                         if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
                             return "/borrower/user_info";
@@ -228,13 +237,14 @@ public class BorrowerController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
+                } else {//cookie中有user_type值为null，返回未授权的页面
                     return "/AccessDenied";
                 }
             }
 
         }
-        //有cookies但是无id_card这个cookie，进行页面跳转
+        //有cookies但是无user_type这个cookie，进行页面跳转
+        //因为开始的拦截器放行，所以有cookie，但是无所需要的cookie文件
         return "/AccessDenied";
     }
 }
