@@ -30,7 +30,10 @@ $.validator.addMethod("isBankCardNo", function (value, element) {
 	if (isBankCardNo(value)== false){
 		$("#bank_SendCode").attr("disabled","disabled");
 		$("#bk_yzm").attr("disabled","disabled");
-	}
+	}else{
+        $("#bank_SendCode").attr("disabled",false);
+    }
+
     return this.optional(element) || res;
 });
 

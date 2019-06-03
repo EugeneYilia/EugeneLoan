@@ -2,7 +2,7 @@
 			$("#push-1").hover(function(){
 			$("#push-1").css("color","white");
 			},function(){
-			$("#push-1").css("color","#777777")
+			$("#push-1").css("color","#777777");
 			});
 			
 			//logo

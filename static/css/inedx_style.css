@@ -973,7 +973,7 @@ h3.agile_tittle span {
 }
 
 .main_section_agile.inner {
-    background: url(../images/banner2.jpg)no-repeat 0px 0px;
+    background: url(/static/images/banner2.jpg)no-repeat 0px 0px;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -986,7 +986,7 @@ h3.agile_tittle span {
 /*-- //about --*/
 
 .mid-one {
-    background: url(../images/banner4.jpg)no-repeat 0px 0px;
+    background: url(/static/images/banner4.jpg)no-repeat 0px 0px;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -996,7 +996,7 @@ h3.agile_tittle span {
 }
 
 .mid-two {
-    background: url(../images/banner5.jpg)no-repeat 0px 0px;
+    background: url(/static/images/banner5.jpg)no-repeat 0px 0px;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
