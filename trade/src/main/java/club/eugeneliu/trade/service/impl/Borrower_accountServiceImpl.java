@@ -30,4 +30,9 @@ public class Borrower_accountServiceImpl extends ServiceImpl<Borrower_accountMap
             return false;
         }
     }
+
+    @Override
+    public Double selectLimit(String id_card) {
+        return borrower_accountMapper.selectIdCard(id_card);
+    }
 }

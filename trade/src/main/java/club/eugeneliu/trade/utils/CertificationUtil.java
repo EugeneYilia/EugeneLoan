@@ -1,4 +1,4 @@
-package club.eugeneliu.identity.utils;
+package club.eugeneliu.trade.utils;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

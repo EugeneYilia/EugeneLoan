@@ -16,4 +16,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface Borrower_accountMapper extends BaseMapper<Borrower_account> {
     int insertBorrower(Borrower_account borrower_account);
+    Double selectIdCard(@Param("id_card") String id_card);
 }

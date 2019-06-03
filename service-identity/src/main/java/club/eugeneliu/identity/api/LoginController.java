@@ -56,12 +56,23 @@ public class LoginController {
             //不依赖于Session,减少了服务器端的压力
             Cookie cookie1 = new Cookie("phone_number", CertificationUtil.encode(phoneNumber));
             cookie1.setMaxAge(24 * 60 * 60);//cookie有效期为一天
+            cookie1.setDomain("192.168.0.163");
+            cookie1.setPath("/");
+
             Cookie cookie2 = new Cookie("user_name", CertificationUtil.encode(user_required_info.getUser_name()));
             cookie2.setMaxAge(24 * 60 * 60);//cookie有效期为一天
+            cookie2.setDomain("192.168.0.163");
+            cookie2.setPath("/");
+
             Cookie cookie3 = new Cookie("id_card", CertificationUtil.encode(user_required_info.getId_card()));
             cookie3.setMaxAge(24 * 60 * 60);//cookie有效期为一天
+            cookie3.setDomain("192.168.0.163");
+            cookie3.setPath("/");
+
             Cookie cookie4 = new Cookie("user_type", CertificationUtil.encode(String.valueOf(user_required_info.getUser_type())));
             cookie4.setMaxAge(24 * 60 * 60);//cookie有效期为一天
+            cookie4.setDomain("192.168.0.163");
+            cookie4.setPath("/");
 
             httpServletResponse.addCookie(cookie1);
             httpServletResponse.addCookie(cookie2);
