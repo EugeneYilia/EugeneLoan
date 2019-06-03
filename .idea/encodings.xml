@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dashboard" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eureka1" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eureka2" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gateway1" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gateway2" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/information" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-identity" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sleuth" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trade" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/turbine" charset="UTF-8" />
+  </component>
+</project>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/EugeneLoan.iml" filepath="$PROJECT_DIR$/EugeneLoan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dashboard/dashboard.iml" filepath="$PROJECT_DIR$/dashboard/dashboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka1/eureka1.iml" filepath="$PROJECT_DIR$/eureka1/eureka1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka2/eureka2.iml" filepath="$PROJECT_DIR$/eureka2/eureka2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway1/gateway.iml" filepath="$PROJECT_DIR$/gateway1/gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway1/gateway1.iml" filepath="$PROJECT_DIR$/gateway1/gateway1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway2/gateway2.iml" filepath="$PROJECT_DIR$/gateway2/gateway2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/information/information.iml" filepath="$PROJECT_DIR$/information/information.iml" />
+      <module fileurl="file://$PROJECT_DIR$/log/log.iml" filepath="$PROJECT_DIR$/log/log.iml" />
+      <module fileurl="file://$PROJECT_DIR$/resources/resources.iml" filepath="$PROJECT_DIR$/resources/resources.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-identity/service-identity.iml" filepath="$PROJECT_DIR$/service-identity/service-identity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sleuth/sleuth.iml" filepath="$PROJECT_DIR$/sleuth/sleuth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trade/trade.iml" filepath="$PROJECT_DIR$/trade/trade.iml" />
+      <module fileurl="file://$PROJECT_DIR$/turbine/turbine.iml" filepath="$PROJECT_DIR$/turbine/turbine.iml" />
+    </modules>
+  </component>
+</project>
