@@ -142,20 +142,17 @@
                         <div class="card card-profile">
                             <div class="card-avatar">
                                 <a href="#">
-                                    <img class="img" src="/static/assets/img/faces/marc.jpg"/>
+                                    <img id="avatar" class="img" src="/static/assets/img/faces/marc.jpg"/>
                                 </a>
                             </div>
                             <div class="card-body">
                                 <table class="table" id="tb1_found_account">
-                                    <tbody>
+                                    <tbody id="tbody1">
                                     <tr>
-                                        <th>您好：</th>
+                                        <th>您好：<span id="user_name"></span></th>
                                     </tr>
                                     <tr>
-                                        <th>信用评分：</th>
-                                    </tr>
-                                    <tr>
-                                        <th>账号：</th>
+                                        <th>账号：<span id="bank_account"></span></th>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -173,7 +170,7 @@
                                 <table class="table" id="tb_balance">
                                     <tbody>
                                     <tr>
-                                        <th>账户余额：</th>
+                                        <th>账户余额：<span id="user_balance"></th>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -206,6 +203,7 @@
         demo.initGoogleMaps();
     });
 </script>
+<script src="/static/assets/js/fund_account_lr.js"></script>
 </body>
 
 </html>
