@@ -122,7 +122,7 @@ CREATE TABLE `borrower_account` (
 
   `borrowed_money` double(15,3) NOT NULL,
 
-  `credit_score` int(3) NOT NULL,
+  `credit_score` int(4) NOT NULL,
 
   `total_limit` double(15,3) NOT NULL COMMENT '总额度',
 
