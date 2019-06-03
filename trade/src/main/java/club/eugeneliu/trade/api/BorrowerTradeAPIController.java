@@ -46,7 +46,7 @@ public class BorrowerTradeAPIController {
         System.out.println(id_card);
 
         JSONObject result = new JSONObject();
-        result.put("limit", iBorrower_accountService.selectLimit(id_card));//-1登录失败
+        result.put("limit", iBorrower_accountService.getLimit(id_card));//-1登录失败
         return result.toJSONString();
     }
 

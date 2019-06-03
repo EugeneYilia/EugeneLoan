@@ -32,7 +32,7 @@ public class Borrower_accountServiceImpl extends ServiceImpl<Borrower_accountMap
     }
 
     @Override
-    public Double selectLimit(String id_card) {
-        return borrower_accountMapper.selectIdCard(id_card);
+    public Double getLimit(String id_card) {
+        return borrower_accountMapper.getLimit(id_card);
     }
 }

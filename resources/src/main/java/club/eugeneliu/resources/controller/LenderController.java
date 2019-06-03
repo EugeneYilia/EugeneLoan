@@ -23,7 +23,7 @@ public class LenderController {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER.getIdentity())) {
                             return "/lender/user_info";
                         } else {
                             return "/AccessDenied";
@@ -49,7 +49,7 @@ public class LenderController {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER.getIdentity())) {
                             return "/lender/unfinished_funds_record";
                         } else {
                             return "/AccessDenied";
@@ -75,7 +75,7 @@ public class LenderController {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER.getIdentity())) {
                             return "/lender/lend_match";
                         } else {
                             return "/AccessDenied";
@@ -101,7 +101,7 @@ public class LenderController {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER.getIdentity())) {
                             return "/lender/lend";
                         } else {
                             return "/AccessDenied";
@@ -127,7 +127,7 @@ public class LenderController {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER.getIdentity())) {
                             return "/lender/index_lender";
                         } else {
                             return "/AccessDenied";
@@ -153,7 +153,7 @@ public class LenderController {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER.getIdentity())) {
                             return "/lender/fund_account";
                         } else {
                             return "/AccessDenied";
@@ -179,7 +179,7 @@ public class LenderController {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER.getIdentity())) {
                             return "/lender/finished_funds_record";
                         } else {
                             return "/AccessDenied";
@@ -205,7 +205,7 @@ public class LenderController {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER.getIdentity())) {
                             return "/lender/collection_record";
                         } else {
                             return "/AccessDenied";
@@ -231,7 +231,7 @@ public class LenderController {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.LENDER.getIdentity())) {
                             return "/lender/business_intro";
                         } else {
                             return "/AccessDenied";

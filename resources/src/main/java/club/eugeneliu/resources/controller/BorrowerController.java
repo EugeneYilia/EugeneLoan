@@ -14,13 +14,13 @@ import java.io.IOException;
 @RequestMapping("/resources/borrower")
 public class BorrowerController {
     @GetMapping("/borrow")
-    public String borrow(HttpServletRequest httpServletRequest){
+    public String borrow(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {//身份符合
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity())) {//身份符合
                             return "/borrower/borrow";
                         } else {//身份不符合
                             return "/AccessDenied";
@@ -41,13 +41,13 @@ public class BorrowerController {
     }
 
     @GetMapping("/business_intro")
-    public String business_intro(HttpServletRequest httpServletRequest){
+    public String business_intro(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity())) {
                             return "/borrower/business_intro";
                         } else {
                             return "/AccessDenied";
@@ -67,13 +67,13 @@ public class BorrowerController {
     }
 
     @GetMapping("/finished_funds_record")
-    public String finished_funds_record(HttpServletRequest httpServletRequest){
+    public String finished_funds_record(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity())) {
                             return "/borrower/finished_funds_record";
                         } else {
                             return "/AccessDenied";
@@ -93,13 +93,13 @@ public class BorrowerController {
     }
 
     @GetMapping("/fund_account")
-    public String fund_account(HttpServletRequest httpServletRequest){
+    public String fund_account(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity())) {
                             return "/borrower/fund_account";
                         } else {
                             return "/AccessDenied";
@@ -119,15 +119,22 @@ public class BorrowerController {
     }
 
     @GetMapping("/index_borrower")
-    public String index_borrower(HttpServletRequest httpServletRequest){
+    public String index_borrower(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
+//                        System.out.println("找到user_type cookie:" + cookie.getValue());
+//                        System.out.println("解码后的user_type cookie:" + CertificationUtil.decode(cookie.getValue()));
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity())) {
+//                            System.out.println("验证通过");
                             return "/borrower/index_borrower";
                         } else {
+//                            System.out.println(CertificationUtil.decode(cookie.getValue()));
+//                            System.out.println(IdentityConstants.BORROWER);//打印出来的结果是0，因为调用了toString，但是其本身就不是一个String类型，而是一个指向Enum类型的引用，因此进行equals比较的时候会出现问题，如果想和String类型进行equals的比较，需要对其调用getIdentity方法获取到起拥有的String类型的identity，之后再对其进行equals比较，这样之后，结果就是我们想要的
+//                            System.out.println(CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity()));
+//                            System.out.println("验证失败");
                             return "/AccessDenied";
                         }
                     } catch (IOException e) {
@@ -145,13 +152,13 @@ public class BorrowerController {
     }
 
     @GetMapping("/repayment_record")
-    public String repayment_record(HttpServletRequest httpServletRequest){
+    public String repayment_record(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity())) {
                             return "/borrower/repayment_record";
                         } else {
                             return "/AccessDenied";
@@ -171,13 +178,13 @@ public class BorrowerController {
     }
 
     @GetMapping("/special_certification")
-    public String special_certification(HttpServletRequest httpServletRequest){
+    public String special_certification(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity())) {
                             return "/borrower/special_certification";
                         } else {
                             return "/AccessDenied";
@@ -197,13 +204,13 @@ public class BorrowerController {
     }
 
     @GetMapping("/unfinished_funds_record")
-    public String unfinished_funds_record(HttpServletRequest httpServletRequest){
+    public String unfinished_funds_record(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity())) {
                             return "/borrower/unfinished_funds_record";
                         } else {
                             return "/AccessDenied";
@@ -223,13 +230,13 @@ public class BorrowerController {
     }
 
     @GetMapping("/user_info")
-    public String user_info(HttpServletRequest httpServletRequest){
+    public String user_info(HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("user_type")) {//找到特定的cookie
                 if (cookie.getValue() != null) {//cookie中有user_type并且其值不为null
                     try {
-                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER)) {
+                        if (CertificationUtil.decode(cookie.getValue()).equals(IdentityConstants.BORROWER.getIdentity())) {
                             return "/borrower/user_info";
                         } else {
                             return "/AccessDenied";

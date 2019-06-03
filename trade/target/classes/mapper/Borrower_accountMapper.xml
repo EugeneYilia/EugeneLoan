@@ -17,7 +17,7 @@
         values
          (#{funds_account},#{id_card},#{account_balance},#{borrowed_money},#{credit_score},#{total_limit},#{available_limit});
     </insert>
-    <select id="selectLimit" parameterType="java.lang.String" resultType="Double">
+    <select id="getLimit" parameterType="java.lang.String" resultType="Double">
         select available_limit from borrower_account where id_card = #{id_card}
     </select>
 </mapper>

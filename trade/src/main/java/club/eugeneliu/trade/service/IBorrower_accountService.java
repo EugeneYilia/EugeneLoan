@@ -14,5 +14,5 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface IBorrower_accountService extends IService<Borrower_account> {
     boolean insertBorrower(Borrower_account borrower_account);
-    Double selectLimit(String id_card);
+    Double getLimit(String id_card);
 }
