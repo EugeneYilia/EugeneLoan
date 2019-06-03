@@ -16,16 +16,20 @@ public class CertificationInterceptor implements HandlerInterceptor {
                     if (cookie.getValue() != null) {//cookie中有id_card并且其值不为null，拦截器放行
                         return true;
                     } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
-                        response.sendRedirect("/static/login.html");
+                        response.setStatus(302);
+                        response.setHeader("Location","http://192.168.0.163/static/login.html");
                         return false;
                     }
                 }
             }
-            //有cookies但是无id_card这个cookie
+            //有cookies但是无id_card这个cookie，进行页面跳转
+            response.setStatus(302);
+            response.setHeader("Location","http://192.168.0.163/static/login.html");
             return false;
         } else {
-            //请求中不包含id_card这个cookie，进行重定向，并且拦截下来
-            response.sendRedirect("/static/login.html");
+            //请求中根本就没有cookie，进行重定向，并且拦截下来
+            response.setStatus(302);
+            response.setHeader("Location","http://192.168.0.163/static/login.html");
             return false;
         }
     }
