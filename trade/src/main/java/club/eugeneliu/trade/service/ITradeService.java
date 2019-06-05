@@ -15,5 +15,6 @@ import java.util.List;
  */
 public interface ITradeService extends IService<Trade> {
     int getTradeNumber(String in_bound_account);
-    List<Trade> getUnfinishedLoans(String in_bound_account);
+    Trade getUnfinishedLoans(String in_bound_account);
+    List<Trade> getFinishedLoans(String in_bound_account);
 }

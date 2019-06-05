@@ -29,7 +29,12 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, Trade> implements
     }
 
     @Override
-    public List<Trade> getUnfinishedLoans(String in_bound_account) {
+    public Trade getUnfinishedLoans(String in_bound_account) {
         return tradeMapper.getUnfinishedLoans(in_bound_account);
+    }
+
+    @Override
+    public List<Trade> getFinishedLoans(String in_bound_account) {
+        return tradeMapper.getFinishedLoans(in_bound_account);
     }
 }

@@ -1,6 +1,7 @@
 package club.eugeneliu.trade.api;
 
 import club.eugeneliu.trade.entity.Intend_borrow;
+import club.eugeneliu.trade.entity.Trade;
 import club.eugeneliu.trade.service.IBorrower_accountService;
 import club.eugeneliu.trade.service.IIntend_borrowService;
 import club.eugeneliu.trade.service.ITradeService;
@@ -12,10 +13,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -117,45 +114,60 @@ public class BorrowerTradeAPIController {
             }
         }
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Eugene-Auth", CertificationUtil.encode("eugeneliu"));
-        httpHeaders.add("cookie", "phone_number=" + CertificationUtil.encode(phone_number) + "; user_name=" + CertificationUtil.encode(user_name) + "; id_card=" + CertificationUtil.encode(id_card) + "; user_type=" + CertificationUtil.encode(user_type));
-
-        HttpEntity<String> httpEntity = new HttpEntity<String>(null, httpHeaders);
-        ResponseEntity<String> responseEntity = this.restTemplate.exchange("http://192.168.0.163/information/all/speicial_identity?id_card=" + id_card, HttpMethod.GET, httpEntity, String.class);
-
-        String special_identity = responseEntity.getBody();
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add("Eugene-Auth", CertificationUtil.encode("eugeneliu"));
+//        httpHeaders.add("cookie", "phone_number=" + CertificationUtil.encode(phone_number) + "; user_name=" + CertificationUtil.encode(user_name) + "; id_card=" + CertificationUtil.encode(id_card) + "; user_type=" + CertificationUtil.encode(user_type));
+//
+//        HttpEntity<String> httpEntity = new HttpEntity<String>(null, httpHeaders);
+//        ResponseEntity<String> responseEntity = this.restTemplate.exchange("http://192.168.0.163/information/all/speicial_identity?id_card=" + id_card, HttpMethod.GET, httpEntity, String.class);
+//
+//        String special_identity = responseEntity.getBody();
 
         String funds_account = iBorrower_accountService.getFundsAccount(id_card);
         //先比较账目总数
-        if (special_identity.equals("NormalPeople")) {//最多一个账目
-            int trade_number = iTradeService.getTradeNumber(funds_account);
-            if (trade_number >= 1) {
-                JSONObject result = new JSONObject();
-                result.put("state", "error");
-                return result.toJSONString();
-            }
-            int intend_borrow_number = iIntend_borrowService.getIntendNumber(id_card);
-            if ((intend_borrow_number + trade_number) >= 1) {
-                JSONObject result = new JSONObject();
-                result.put("state", "error");
-                return result.toJSONString();
-            }
+//        if (special_identity.equals("NormalPeople")) {//最多一个账目
+//            int trade_number = iTradeService.getTradeNumber(funds_account);
+//            if (trade_number >= 1) {
+//                JSONObject result = new JSONObject();
+//                result.put("state", "error");
+//                return result.toJSONString();
+//            }
+//            int intend_borrow_number = iIntend_borrowService.getIntendNumber(id_card);
+//            if ((intend_borrow_number + trade_number) >= 1) {
+//                JSONObject result = new JSONObject();
+//                result.put("state", "error");
+//                return result.toJSONString();
+//            }
+//
+//        } else if (special_identity.equals("EugeneLiu")) {//最多三个账目
+//            int trade_number = iTradeService.getTradeNumber(funds_account);
+//            if (trade_number >= 3) {
+//                JSONObject result = new JSONObject();
+//                result.put("state", "error");
+//                return result.toJSONString();
+//            }
+//            int intend_borrow_number = 0;
+//            if ((intend_borrow_number + trade_number) >= 3) {
+//                JSONObject result = new JSONObject();
+//                result.put("state", "error");
+//                return result.toJSONString();
+//            }
+//        }
 
-        } else if (special_identity.equals("EugeneLiu")) {//最多三个账目
-            int trade_number = iTradeService.getTradeNumber(funds_account);
-            if (trade_number >= 3) {
-                JSONObject result = new JSONObject();
-                result.put("state", "error");
-                return result.toJSONString();
-            }
-            int intend_borrow_number = 0;
-            if ((intend_borrow_number + trade_number) >= 3) {
-                JSONObject result = new JSONObject();
-                result.put("state", "error");
-                return result.toJSONString();
-            }
+        int trade_number = iTradeService.getTradeNumber(funds_account);
+        if (trade_number >= 1) {//每人最多只能借一个账目
+            JSONObject result = new JSONObject();
+            result.put("state", "error");
+            return result.toJSONString();
         }
+        int intend_borrow_number = iIntend_borrowService.getIntendNumber(id_card);
+        if ((intend_borrow_number + trade_number) >= 1) {
+            JSONObject result = new JSONObject();
+            result.put("state", "error");
+            return result.toJSONString();
+        }
+
+
         //再比较额度
         Double available_limit = iBorrower_accountService.getLimit(id_card);
         if (intend_Money > available_limit) {
@@ -194,6 +206,7 @@ public class BorrowerTradeAPIController {
     }
 
 
+
     @ApiOperation(value = "查看自己的待还款记录", notes = "只包含接入用户的未还清钱款记录")
     @GetMapping(value = "/borrower/loan", produces = "application/json;charset=UTF-8")
     public String getLoan(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -211,30 +224,26 @@ public class BorrowerTradeAPIController {
 
         String in_bound_account = iBorrower_accountService.getFundsAccount(id_card);
 
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.addAll(iTradeService.getUnfinishedLoans(in_bound_account));
-        return jsonArray.toJSONString();
-    }
+//        JSONArray jsonArray = new JSONArray();
+        Trade unfinishedTrade = iTradeService.getUnfinishedLoans(in_bound_account);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("bill_id",unfinishedTrade.getBill_id());
+        jsonObject.put("start_date",unfinishedTrade.getExact_date());
+        jsonObject.put("start_money",unfinishedTrade.getMoney());
+        jsonObject.put("unpay_money",unfinishedTrade.getMoney());
+//        jsonObject.put("next_time_should_pay",);
+//        jsonObject.put("liquidated_money",);
+//        jsonObject.put("pay_rate",unfinishedTrade.getPay_rate());
+//        jsonObject.put("pay_type",unfinishedTrade.getPay_type());
+//        jsonObject.put("deadline",);
+//        jsonObject.put("start_interest",);
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "bill_id", value = "待还款记录ID", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "money", value = "金额", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "exact_date", value = "日期", required = true, dataType = "String")
-    })
-    @ApiOperation(value = "还款接口", notes = "对借的钱进行还款")
-    @PutMapping(value = "/borrow/loan")
-    public String returnMoney(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String bill_id = httpServletRequest.getParameter("bill_id");
-        String money = httpServletRequest.getParameter("money");
-        String exact_date = httpServletRequest.getParameter("exact_date");
-
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
-        return "{'state':'successful'}";
+        return jsonObject.toJSONString();
     }
 
     @ApiOperation(value = "借入方已完成记录接口", notes = "借入方查看已经完成的记录")
     @GetMapping(value = "/borrower/finishedLoan")
-    public String getFinishedLoans(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    public String getFinishedLoans(HttpServletRequest httpServletRequest) {
 
         String id_card = "";
         Cookie[] cookies = httpServletRequest.getCookies();
@@ -251,7 +260,39 @@ public class BorrowerTradeAPIController {
         String in_bound_account = iBorrower_accountService.getFundsAccount(id_card);
 
         JSONArray jsonArray = new JSONArray();
-        jsonArray.addAll(iTradeService.getUnfinishedLoans(in_bound_account));
+        jsonArray.addAll(iTradeService.getFinishedLoans(in_bound_account));
         return jsonArray.toJSONString();
+    }
+
+    @ApiOperation(value = "待交易页面接口", notes = "查看未达成的贷款记录")
+    @GetMapping(value = "/borrower/unfinishedLoan")
+    public String getFinishedLoans(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+
+        httpServletResponse.setContentType("application/json;charset=UTF-8");
+        return "{'bill_id':'successful'," +
+                "'intend_money':'successful'," +
+                "'start_date':'avatar_url'," +
+                "'rate':'successful'," +
+                "'pay_type':'successful'" +
+                "'limit_months':'successful'" +
+                "'state':'successful'" +
+                "'raised_money':'successful'" +
+                "}";
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "bill_id", value = "待还款记录ID", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "money", value = "金额", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "exact_date", value = "日期", required = true, dataType = "String")
+    })
+    @ApiOperation(value = "还款接口", notes = "对借的钱进行还款")
+    @PutMapping(value = "/borrower/loan")
+    public String returnMoney(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        String bill_id = httpServletRequest.getParameter("bill_id");
+        String money = httpServletRequest.getParameter("money");
+        String exact_date = httpServletRequest.getParameter("exact_date");
+
+        httpServletResponse.setContentType("application/json;charset=UTF-8");
+        return "{'state':'successful'}";
     }
 }
