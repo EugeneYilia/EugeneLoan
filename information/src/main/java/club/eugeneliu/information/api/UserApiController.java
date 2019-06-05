@@ -4,17 +4,17 @@ import club.eugeneliu.information.entity.User_required_info;
 import club.eugeneliu.information.mq.RegisterMq;
 import club.eugeneliu.information.service.IUser_optional_infoService;
 import club.eugeneliu.information.service.IUser_required_infoService;
+import club.eugeneliu.information.utils.CertificationUtil;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Map;
 
 @Api("用户控制器")
@@ -38,7 +38,7 @@ public class UserApiController {
             @ApiImplicitParam(name = "verify_code", value = "验证码", required = true, dataType = "String")
     })
     @ApiOperation(value = "注册用户信息", notes = "根据用户提交的注册表单，核实验证码，如果没错误，开通第三方存管账户成功，并且跳转到主页，否则返回json提示错误")
-    @PostMapping(value = "/all/register",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/all/register", produces = "application/json;charset=UTF-8")
     public String checkIdCard(@RequestBody Map objects) {
 //        String phoneNum = httpServletRequest.getParameter("phone_number");
 //        String password = httpServletRequest.getParameter("password");
@@ -68,7 +68,7 @@ public class UserApiController {
         if (!verify_code.equals("123456")) {
             System.out.println("验证码验证失败");
             JSONObject result = new JSONObject();
-            result.put("state","error");
+            result.put("state", "error");
             return result.toJSONString();
         } else {
             //进行注册
@@ -87,18 +87,69 @@ public class UserApiController {
             boolean isInsertOptionalSuccessful = iUser_optional_infoService.insertUserOptionalInfo(id_card);
 
 
-
             if (isInsertRequiredSuccessful && isInsertOptionalSuccessful) {
-                RegisterMq.send(user_type,id_card);
+                RegisterMq.send(user_type, id_card);
                 JSONObject result = new JSONObject();
-                result.put("state","successful");
+                result.put("state", "successful");
                 return result.toJSONString();
             } else {
                 System.out.println("用户注册失败");
                 JSONObject result = new JSONObject();
-                result.put("state","error");
+                result.put("state", "error");
                 return result.toJSONString();
             }
+        }
+    }
+
+
+    //内部接口检验Request Header部分的eugene_auth，如果对其解码得到的是eugeneliu就返回正常的数据，否则直接返回Access Denied
+    @GetMapping("/all/bank_account")
+    public String getBankAccount(HttpServletRequest httpServletRequest) {
+        String id_card = httpServletRequest.getParameter("id_card");
+        String auth_value = "";
+        try {
+
+//            Enumeration headers = httpServletRequest.getHeaderNames();
+//            while (headers.hasMoreElements()) {
+//                System.out.println(headers.nextElement());
+//            }
+//
+//            System.out.println("eugene-auth:" + httpServletRequest.getHeader("eugene-auth"));
+//            Cookie[] cookies = httpServletRequest.getCookies();
+//            for (int i = 0; i < cookies.length; i++) {
+//                System.out.println(cookies[i].getName());
+//            }
+
+
+            auth_value = CertificationUtil.decode(httpServletRequest.getHeader("eugene-auth"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (auth_value.equals("eugeneliu")) {
+            return iUser_required_infoService.getBankAccount(id_card);
+        } else {
+            return "Access Denied";
+        }
+    }
+
+    @GetMapping("/all/special_identity")
+    public String getSpeicialIdentity(HttpServletRequest httpServletRequest) {
+        String id_card = httpServletRequest.getParameter("id_card");
+        String auth_value = "";
+        try {
+            auth_value = CertificationUtil.decode(httpServletRequest.getHeader("eugene-auth"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (auth_value.equals("eugeneliu")) {
+            if (iUser_optional_infoService.getSpecialIdentity(id_card) == null) {
+//                System.out.println("EugeneLiu");
+                return "NormalPeople";//普通用户
+            } else {
+                return "EugeneLiu";//特殊身份
+            }
+        } else {
+            return "Access Denied";
         }
     }
 }

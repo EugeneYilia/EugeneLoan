@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2019-05-27
  */
 public interface IRecharge_recordService extends IService<Recharge_record> {
-
+    boolean insertRecord(Recharge_record recharge_record);
 }

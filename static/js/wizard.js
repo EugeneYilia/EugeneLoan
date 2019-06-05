@@ -30,6 +30,7 @@ $(document).ready(function(){
             user_name:{
                 required:true,
                 isChinese:true,
+				maxlength:20,
             },
             id_card:{
                 required:true,
@@ -69,6 +70,12 @@ $(document).ready(function(){
                 isPhoneNumber:true,
 				isunRegisted:true,
             },
+			idcard_front: {
+                required: true,
+            },
+			idcard_back: {
+                required: true,
+            },
         },
         messages: {
             phone_num: {
@@ -94,7 +101,8 @@ $(document).ready(function(){
             },
             user_name:{
                 required:"姓名不能为空",
-                isChinese:"姓名不符合格式"
+                isChinese:"姓名不符合格式",
+				maxlength:"输入过长",
             },
             id_card:{
                 required:"身份证号不能为空",
@@ -130,6 +138,12 @@ $(document).ready(function(){
                 required: "手机号不能为空",
                 isPhoneNumber:"请输入正确格式手机号",
 				isunRegisted:"该手机号未注册"
+            },
+			idcard_front: {
+                required: "上传照片不能为空",
+            },
+			idcard_back: {
+                required: "上传照片不能为空",
             },
         }
 	});

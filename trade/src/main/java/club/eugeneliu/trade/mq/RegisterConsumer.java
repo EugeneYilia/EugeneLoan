@@ -18,11 +18,14 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Properties;
 
+import static club.eugeneliu.trade.constants.CertificationConstants.BORROWER;
+import static club.eugeneliu.trade.constants.CertificationConstants.LENDER;
+
 public class RegisterConsumer implements Runnable {
 
     private final KafkaConsumer<String, String> kafkaConsumer;
-    public static final String BORROWER = "0";
-    public static final String LENDER = "1";
+//    public static final String BORROWER = "0";
+//    public static final String LENDER = "1";
 
     IDepositoryService iDepositoryService;
 
@@ -93,31 +96,34 @@ public class RegisterConsumer implements Runnable {
     }
 
     private int getTotalLimit(int score) {
-        if (score < 100) {
-            return 0;
-        } else if (score < 200) {
-            return getFiftyNumber(1 * score);
-        } else if (score < 300) {
-            return getFiftyNumber(2 * score);
-        } else if (score < 400) {
-            return getFiftyNumber(3 * score);
-        } else if (score < 500) {
-            return getFiftyNumber(4 * score);
-        } else if (score < 600) {
-            return getFiftyNumber(5 * score);
-        } else if (score < 700) {
-            return getFiftyNumber(6 * score);
-        } else if (score < 800) {
-            return getFiftyNumber(7 * score);
-        } else if (score < 900) {
-            return getFiftyNumber(8 * score);
-        } else if (score < 1000) {
-            return getFiftyNumber(9 * score);
-        } else if (score == 1000) {
-            return 10000;
-        } else {
-            return 0;
-        }
+//        if (score < 100) {
+//            return 0;
+//        } else if (score < 200) {
+//            return getFiftyNumber(3 * score);
+//        } else if (score < 300) {
+//            return getFiftyNumber(8 * score);
+//        } else if (score < 400) {
+//            return getFiftyNumber(16 * score);
+//        } else if (score < 500) {
+//            return getFiftyNumber(20 * score);
+//        } else if (score < 600) {
+//            return getFiftyNumber(33 * score);
+//        } else if (score < 700) {
+//            return getFiftyNumber(47 * score);
+//        } else if (score < 800) {
+//            return getFiftyNumber(65 * score);
+//        } else if (score < 900) {
+//            return getFiftyNumber(80 * score);
+//        } else if (score < 1000) {
+//            return getFiftyNumber(100 * score);
+//        } else if (score == 1000) {
+//            return 10000;
+//        } else {
+//            return 0;
+//        }
+        double a = 3E-9;
+        double n = 4.50757555;
+        return ((int) ((a * Math.pow(score, n)) / 100 + 1)) * 100;
     }
 
     private int getFiftyNumber(int number) {
@@ -150,7 +156,7 @@ public class RegisterConsumer implements Runnable {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                if (consumerRecord.key().equals(BORROWER)) {
+                if (consumerRecord.key().equals(BORROWER.getIdentity())) {
                     //执行开户操作，并将开户结果保存到数据库中
                     Depository depository = openDeposit(id_card);
 //                    IDepositoryService iDepositoryService = (IDepositoryService) AppBeanUtil.getBean("depositoryService");
@@ -170,16 +176,16 @@ public class RegisterConsumer implements Runnable {
                         borrower_account.setBorrowed_money(0.0);
 //                    IBorrower_accountService iBorrower_accountService = (IBorrower_accountService)(AppBeanUtil.getBean("lender_accountService"));
 //                        boolean result2 = iBorrower_accountService.insertBorrower(borrower_account);
-                        String sql2 = "insert into borrower_account(funds_account,id_card,account_balance,borrowed_money,credit_score,total_limit,available_limit) values("+
-                                borrower_account.getFunds_account()+","+borrower_account.getId_card()+","+borrower_account.getAccount_balance()+","+borrower_account.getBorrowed_money()+","+borrower_account.getCredit_score()+","+borrower_account.getTotal_limit()+","+borrower_account.getAvailable_limit()+")";
+                        String sql2 = "insert into borrower_account(funds_account,id_card,account_balance,borrowed_money,credit_score,total_limit,available_limit) values(" +
+                                borrower_account.getFunds_account() + "," + borrower_account.getId_card() + "," + borrower_account.getAccount_balance() + "," + borrower_account.getBorrowed_money() + "," + borrower_account.getCredit_score() + "," + borrower_account.getTotal_limit() + "," + borrower_account.getAvailable_limit() + ")";
                         boolean result2 = statement.execute(sql2);
                         if (result1 && result2) {
                             System.out.println(id_card + "注册成功借入者身份");
                         }
-                    } catch (SQLException e){
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                } else if (consumerRecord.key().equals(LENDER)) {
+                } else if (consumerRecord.key().equals(LENDER.getIdentity())) {
                     //执行开户操作，并将开户结果保存到数据库中
                     Depository depository = openDeposit(id_card);
 //                    IDepositoryService iDepositoryService = (IDepositoryService) AppBeanUtil.getBean("depositoryService");
@@ -197,20 +203,20 @@ public class RegisterConsumer implements Runnable {
 
 //                    ILender_accountService iLender_accountService = (ILender_accountService)(AppBeanUtil.getBean("lender_accountService"));
 //                        boolean result2 = iLender_accountService.insertLender(lender_account);
-                        String sql2 = "insert into lender_account(funds_account,id_card,account_balance,lent_money,current_income,expected_income) values("+
-                                lender_account.getFunds_account()+","+lender_account.getId_card()+","+lender_account.getAccount_balance()+","+lender_account.getLent_money()+","+lender_account.getCurrent_income()+","+lender_account.getExpected_income()+")";
+                        String sql2 = "insert into lender_account(funds_account,id_card,account_balance,lent_money,current_income,expected_income) values(" +
+                                lender_account.getFunds_account() + "," + lender_account.getId_card() + "," + lender_account.getAccount_balance() + "," + lender_account.getLent_money() + "," + lender_account.getCurrent_income() + "," + lender_account.getExpected_income() + ")";
                         boolean result2 = statement.execute(sql2);
                         if (result1 && result2) {
                             System.out.println(id_card + "注册成功借出者身份");
                         }
-                    }catch (SQLException e){
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
-                try{
+                try {
                     statement.close();
                     connection.close();
-                } catch (SQLException e){
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
 //                System.out.printf("offset = %d , key = %s , value = %s%n",consumerRecord.offset(),consumerRecord.key(),consumerRecord.value());

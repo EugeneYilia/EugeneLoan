@@ -154,7 +154,7 @@ $(document).ready(function () {
 		function settime(obj){
             if (time===0) {
 				$("#phone_num").attr('disabled',false);
-				$("#yzm").attr("value","");
+				$("#yzm").val("");
 				$("#yzm").attr('disabled','disabled');
                 $(obj).attr('disabled', false);
                 $(obj).html("重新获取");

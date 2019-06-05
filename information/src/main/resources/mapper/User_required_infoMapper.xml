@@ -48,4 +48,7 @@
     <select id="selectUserInfo" parameterType="java.lang.String" resultMap="UserInfoMap">
         select * from user_required_info natural join user_optional_info where id_card = #{id_card}
     </select>
+    <select id="getBankAccount" parameterType="java.lang.String" resultType="String">
+        select bank_account from user_required_info where id_card = #{id_card}
+    </select>
 </mapper>

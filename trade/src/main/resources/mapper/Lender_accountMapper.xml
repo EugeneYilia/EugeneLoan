@@ -16,4 +16,10 @@
         values
          (#{funds_account},#{id_card},#{account_balance},#{lent_money},#{current_income},#{expected_income});
     </insert>
+    <select id="getAccountBalance" parameterType="java.lang.String" resultType="Double">
+        select account_balance from lender_account where id_card = #{id_card}
+    </select>
+    <update id="updateAccountBalance">
+        update lender_account set account_balance = #{new_balance} where id_card = #{id_card}
+    </update>
 </mapper>

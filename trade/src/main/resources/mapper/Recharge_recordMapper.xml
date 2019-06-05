@@ -10,4 +10,7 @@
         <result column="bank_account" property="bank_account" />
     </resultMap>
 
+    <insert id="insertRecord" parameterType="club.eugeneliu.trade.entity.Recharge_record">
+        insert into recharge_record(recharge_date,recharge_money,bank_account) values(#{recharge_date},#{recharge_money},#{bank_account})
+    </insert>
 </mapper>

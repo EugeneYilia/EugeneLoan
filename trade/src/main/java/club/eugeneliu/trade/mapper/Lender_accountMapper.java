@@ -16,4 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface Lender_accountMapper extends BaseMapper<Lender_account> {
     int insertLender(Lender_account lender_account);
+    Double getAccountBalance(@Param("id_card") String id_card);
+    int updateAccountBalance(@Param("id_card") String id_card,@Param("new_balance") double new_balance);
 }

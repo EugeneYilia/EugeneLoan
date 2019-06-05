@@ -4,13 +4,12 @@ $(document).ready(function() {
         dataType: "json",
         url: "/trade/borrower/account",
         success: function (res) {
-            $("#avatar").src(res.avatar);
             $("#user_name").text(res.user_name);
-            $("#score").text(res.score);
+            $("#credit_score").text(res.credit_score);
             $("#bank_account").text(res.bank_account);
-            $("#user_balance").text(res.user_balance);
-            $("#total_quato").text(res.total_quato);
-            $("#unused_quato").text(res.unused_quato);
+            $("#account_balance").text(res.account_balance);
+            $("#total_limit").text(res.total_limit);
+            $("#available_limit").text(res.available_limit);
         },
         error: function() {}
     })

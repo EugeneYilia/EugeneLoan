@@ -27,4 +27,10 @@
     <update id="updateSpecialIdentity">
         update user_optional_info set special_identity = #{special_identity} where id_card = #{id_card}
     </update>
+    <select id="getAvatar" parameterType="java.lang.String" resultType="Object">
+        select avatar from user_optional_info where id_card = #{id_card}
+    </select>
+    <select id="getSpecialIdentity" parameterType="java.lang.String" resultType="String">
+        select special_identity from user_optional_info where id_card = #{id_card}
+    </select>
 </mapper>

@@ -35,4 +35,26 @@ public class Borrower_accountServiceImpl extends ServiceImpl<Borrower_accountMap
     public Double getLimit(String id_card) {
         return borrower_accountMapper.getLimit(id_card);
     }
+
+    @Override
+    public Borrower_account getAllInformation(String id_card) {
+        return borrower_accountMapper.getAllInformation(id_card);
+    }
+
+    @Override
+    public Double getAccountBalance(String id_card) {
+        return borrower_accountMapper.getAccountBalance(id_card);
+    }
+
+    @Override
+    public boolean updateAccountBalance(String id_card, double new_balance) {
+        int result = borrower_accountMapper.updateAccountBalance(id_card,new_balance);
+        if(result == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

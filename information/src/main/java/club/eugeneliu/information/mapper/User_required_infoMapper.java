@@ -24,4 +24,5 @@ public interface User_required_infoMapper extends BaseMapper<User_required_info>
     int updateUserPhoneNumber(@Param("phone_number") String phone_number,@Param("id_card") String id_card);
     int updateUserPassword(@Param("password") String password,@Param("id_card") String id_card);
     UserInfo selectUserInfo(@Param("id_card") String id_card);
+    String getBankAccount(@Param("id_card") String id_card);
 }

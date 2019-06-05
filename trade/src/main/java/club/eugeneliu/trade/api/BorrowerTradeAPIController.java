@@ -8,7 +8,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +21,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Map;
 
 @Api("借入者交易控制器")
 @RestController
 @RequestMapping("/trade")
 public class BorrowerTradeAPIController {
 
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     IBorrower_accountService iBorrower_accountService;
@@ -57,22 +66,76 @@ public class BorrowerTradeAPIController {
             @ApiImplicitParam(name = "limit_months", value = "还款时间", required = true, dataType = "String")
     })
     @ApiOperation(value = "发起借入事件", notes = "发起贷款，先进入意向借入")
-    @PostMapping(value = "/borrower/loan")
-    public String launchLoan(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String intend_Money = httpServletRequest.getParameter("intend_money");
-        String rate = httpServletRequest.getParameter("rate");
-        String pay_type = httpServletRequest.getParameter("pay_type");
-        String limit_months = httpServletRequest.getParameter("limit_months");
+    @PostMapping(value = "/borrower/loan", produces = "application/json;charset=UTF-8")
+    public String launchLoan(HttpServletRequest httpServletRequest, @RequestBody Map objects) {
+        Double intend_Money = Double.parseDouble((String) objects.get("intend_money"));
+        String rate = (String) objects.get("rate");
+        String pay_type = (String) objects.get("pay_type");
+        String limit_months = (String) objects.get("limit_months");
 
-        //Test START
-        System.out.println(intend_Money);
-        System.out.println(rate);
-        System.out.println(pay_type);
-        System.out.println(limit_months);
-        //Test END
+        String user_name = "";
+        String id_card = "";
+        String phone_number = "";
+        String user_type = "";
+
+
+        Cookie[] cookies = httpServletRequest.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("user_name")) {
+                try {
+                    user_name = CertificationUtil.decode(cookie.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (cookie.getName().equals("id_card")) {
+                try {
+                    id_card = CertificationUtil.decode(cookie.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (cookie.getName().equals("phone_number")) {
+                try {
+                    phone_number = CertificationUtil.decode(cookie.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (cookie.getName().equals("user_type")) {
+                try {
+                    user_type = CertificationUtil.decode(cookie.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Eugene-Auth", CertificationUtil.encode("eugeneliu"));
+        httpHeaders.add("cookie", "phone_number=" + CertificationUtil.encode(phone_number) + "; user_name=" + CertificationUtil.encode(user_name) + "; id_card=" + CertificationUtil.encode(id_card) + "; user_type=" + CertificationUtil.encode(user_type));
+
+        HttpEntity<String> httpEntity = new HttpEntity<String>(null, httpHeaders);
+        ResponseEntity<String> responseEntity = this.restTemplate.exchange("http://192.168.0.163/information/all/speicial_identity?id_card=" + id_card, HttpMethod.GET, httpEntity, String.class);
+
+        String special_identity = responseEntity.getBody();
+
+        //先比较账目总数
+        if(special_identity.equals("NormalPeople")) {//最多一个账目
+            int trade_number = 0;
+
+            int intend_borrow_number = 0;
+        } else if(special_identity.equals("EugeneLiu")){//最多三个账目
+            int trade_number = 0;
+
+            int intend_borrow_number = 0;
+        }
+        //再比较额度
+
+
+        //给intend_borrow表增加字段
+
+        //再修改资金账户表的额度字段
+
 
         String start_date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());//发起日期
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
         return "{'state':'successful'}";
     }
 

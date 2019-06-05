@@ -18,13 +18,12 @@ public class LenderAccountAPIController {
     public String getUserAccount(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 
         httpServletResponse.setContentType("application/json;charset=UTF-8");
-        return "{'username':'successful'," +
+        return "{'user_name':'successful'," +
                 "'bank_account':'successful'," +
-                "'user_balance':'successful'," +
-                "'lend_money':'successful'," +
-                "'avatar':'avatar_url',"+
-                "'total_benefit':'successful',"+
-                "'future_benefit':'successful'"+
+                "'account_balance':'successful'," +
+                "'lent_money':'successful'," +
+                "'current_income':'successful',"+
+                "'expected_income':'successful'"+
                 "}";
     }
 }

@@ -30,6 +30,7 @@ public class CertificationInterceptor implements HandlerInterceptor {
                             return true;
                         } else {//cookie中有id_card值为null，拦截柱重定向到登录页面
                             response.setStatus(302);
+//                            System.out.println(1);
                             response.setHeader("Location","http://192.168.0.163/static/login.html");
                             return false;
                         }
@@ -37,10 +38,12 @@ public class CertificationInterceptor implements HandlerInterceptor {
                 }
                 //有cookies但是无id_card这个cookie,进行页面跳转
                 response.setStatus(302);
+//                System.out.println(2);
                 response.setHeader("Location","http://192.168.0.163/static/login.html");
                 return false;
             } else {
                 //请求中不包含id_card这个cookie，进行重定向，并且拦截下来
+//                System.out.println(3);
                 response.setStatus(302);
                 response.setHeader("Location","http://192.168.0.163/static/login.html");
                 return false;

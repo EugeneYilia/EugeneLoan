@@ -31,4 +31,19 @@ public class Lender_accountServiceImpl extends ServiceImpl<Lender_accountMapper,
             return false;
         }
     }
+
+    @Override
+    public Double getAccountBalance(String id_card) {
+        return lender_accountMapper.getAccountBalance(id_card);
+    }
+
+    @Override
+    public boolean updateAccountBalance(String id_card, double new_balance) {
+        int result = lender_accountMapper.updateAccountBalance(id_card, new_balance);
+        if(result == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

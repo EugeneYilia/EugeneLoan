@@ -77,4 +77,9 @@ public class User_required_infoServiceImpl extends ServiceImpl<User_required_inf
         return user_required_infoMapper.selectUserInfo(id_card);
     }
 
+    @Override
+    public String getBankAccount(String id_card) {
+        return user_required_infoMapper.getBankAccount(id_card);
+    }
+
 }

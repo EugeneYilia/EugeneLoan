@@ -20,4 +20,13 @@
     <select id="getLimit" parameterType="java.lang.String" resultType="Double">
         select available_limit from borrower_account where id_card = #{id_card}
     </select>
+    <select id="getAllInformation" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from borrower_account where id_card = #{id_card};
+    </select>
+    <select id="getAccountBalance" parameterType="java.lang.String" resultType="Double">
+        select account_balance from borrower_account where id_card = #{id_card}
+    </select>
+    <update id="updateAccountBalance">
+        update borrower_account set account_balance = #{new_balance} where id_card = #{id_card}
+    </update>
 </mapper>

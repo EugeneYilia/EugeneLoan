@@ -60,4 +60,14 @@ public class User_optional_infoServiceImpl extends ServiceImpl<User_optional_inf
             return false;
         }
     }
+
+    @Override
+    public Object getAvatar(String id_card) {
+        return user_optional_infoMapper.getAvatar(id_card);
+    }
+
+    @Override
+    public String getSpecialIdentity(String id_card) {
+        return user_optional_infoMapper.getSpecialIdentity(id_card);
+    }
 }
