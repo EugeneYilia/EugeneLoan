@@ -9,5 +9,7 @@
         <result column="withdraw_money" property="withdraw_money" />
         <result column="bank_account" property="bank_account" />
     </resultMap>
-
+    <insert id="insertRecord" parameterType="club.eugeneliu.trade.entity.Withdraw_record">
+        insert into withdraw_record(withdraw_date,withdraw_money,bank_account) values(#{withdraw_date},#{withdraw_money},#{bank_account})
+    </insert>
 </mapper>

@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface Borrower_accountMapper extends BaseMapper<Borrower_account> {
-    int insertBorrower(Borrower_account borrower_account);
+//    int insertBorrower(Borrower_account borrower_account);
     Double getLimit(@Param("id_card") String id_card);
     Borrower_account getAllInformation(@Param("id_card") String id_card);
     Double getAccountBalance(@Param("id_card") String id_card);
     int updateAccountBalance(@Param("id_card") String id_card,@Param("new_balance") double new_balance);
     String getFundsAccount(@Param("id_card") String id_card);
-    int updateAvailableLimit(@Param("id_card") String id_card,@Param("available_limit") double available_limit);
+    int updateAvailableLimit(@Param("available_limit") double available_limit,@Param("id_card") String id_card);
 }

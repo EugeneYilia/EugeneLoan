@@ -1,9 +1,10 @@
 package club.eugeneliu.trade.api;
 
+import club.eugeneliu.trade.entity.Borrower_account;
+import club.eugeneliu.trade.entity.Lender_account;
 import club.eugeneliu.trade.entity.Recharge_record;
-import club.eugeneliu.trade.service.IBorrower_accountService;
-import club.eugeneliu.trade.service.ILender_accountService;
-import club.eugeneliu.trade.service.IRecharge_recordService;
+import club.eugeneliu.trade.entity.Withdraw_record;
+import club.eugeneliu.trade.service.*;
 import club.eugeneliu.trade.utils.CertificationUtil;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
@@ -19,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -41,6 +41,12 @@ public class GeneralController {
 
     @Autowired
     ILender_accountService iLender_accountService;
+
+    @Autowired
+    IIntend_lendService iIntend_lendService;
+
+    @Autowired
+    IWithdraw_recordService iWithdraw_recordService;
 
     @Autowired
     RestTemplate restTemplate;
@@ -111,29 +117,108 @@ public class GeneralController {
 
     @ApiImplicitParam(name = "money", value = "金额", required = true, dataType = "String")
     @ApiOperation(value = "用户提现", notes = "提现指定的金额到银行账户中")
-    @PostMapping(value = "/general/withdraw")
-    public String withdrawMoney(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String phoneNumber = httpServletRequest.getParameter("money");
+    @PostMapping(value = "/general/withdraw", produces = "application/json;charset=UTF-8")
+    public String withdrawMoney(HttpServletRequest httpServletRequest, @RequestBody Map objects) {
+        String user_name = "";
+        String id_card = "";
+        String phone_number = "";
+        String user_type = "";
 
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
-        return "{'state':'successful'}";
+
+        Cookie[] cookies = httpServletRequest.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("user_name")) {
+                try {
+                    user_name = CertificationUtil.decode(cookie.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (cookie.getName().equals("id_card")) {
+                try {
+                    id_card = CertificationUtil.decode(cookie.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (cookie.getName().equals("phone_number")) {
+                try {
+                    phone_number = CertificationUtil.decode(cookie.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (cookie.getName().equals("user_type")) {
+                try {
+                    user_type = CertificationUtil.decode(cookie.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //充值表中增加记录
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Eugene-Auth", CertificationUtil.encode("eugeneliu"));
+        httpHeaders.add("cookie", "id_card=" + CertificationUtil.encode(id_card) + "; user_type=" + CertificationUtil.encode(user_type));
+
+        HttpEntity<String> httpEntity = new HttpEntity<String>(null, httpHeaders);
+        ResponseEntity<String> responseEntity = this.restTemplate.exchange("http://192.168.0.163/information/all/bank_account?id_card=" + id_card, HttpMethod.GET, httpEntity, String.class);
+
+        String bank_account = responseEntity.getBody();
+
+        BigDecimal withdrawMoney = new BigDecimal((String) objects.get("money"));
+        BigDecimal bigAccountBalance = null;
+        BigDecimal bigForzenMoney = null;
+        BigDecimal availableMoney = null;
+        if (user_type.equals(BORROWER.getIdentity())) {
+            Borrower_account borrower_account = iBorrower_accountService.getAllInformation(id_card);
+            bigAccountBalance = new BigDecimal(String.valueOf(borrower_account.getAccount_balance()));
+//            bigForzenMoney = new BigDecimal(String.valueOf(iIntend_lendService.getForzenMoney(id_card)));
+            availableMoney = bigAccountBalance;
+        } else if (user_type.equals(LENDER.getIdentity())) {
+            Lender_account lender_account = iLender_accountService.getAllInformation(id_card);
+            bigAccountBalance = new BigDecimal(String.valueOf(lender_account.getAccount_balance()));
+            bigForzenMoney = new BigDecimal(String.valueOf(iIntend_lendService.getForzenMoney(id_card)));
+            availableMoney = bigAccountBalance.subtract(bigForzenMoney);
+        }
+
+
+        if (availableMoney.subtract(withdrawMoney).doubleValue() >= 0) {
+
+            Withdraw_record withdraw_record = new Withdraw_record();
+            withdraw_record.setBank_account(bank_account);
+            withdraw_record.setWithdraw_date(new Date());
+            withdraw_record.setWithdraw_money(withdrawMoney.doubleValue());
+
+            //给提现表增加记录
+            boolean isSuccessful1 = iWithdraw_recordService.insertRecord(withdraw_record);
+
+            //更新资金账户表
+            boolean isSuccessful2 = false;
+            if (user_type.equals(BORROWER.getIdentity())) {
+                //更新借入方资金账户表
+                isSuccessful2 = iBorrower_accountService.updateAccountBalance(id_card, bigAccountBalance.subtract(withdrawMoney).doubleValue());
+            } else if (user_type.equals(LENDER.getIdentity())) {
+                //更新借出方资金账户表
+                isSuccessful2 = iLender_accountService.updateAccountBalance(id_card, bigAccountBalance.subtract(withdrawMoney).doubleValue());
+            }
+
+            if (isSuccessful1 && isSuccessful2) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("state", "successful");
+                return jsonObject.toJSONString();
+            } else {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("state", "error");
+                return jsonObject.toJSONString();
+            }
+        } else {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("state", "error");
+            return jsonObject.toJSONString();
+        }
+
+//        return "{'state':'successful'}";
     }
 
-    @ApiOperation(value = "待交易页面接口", notes = "查看未达成的贷款记录")
-    @GetMapping(value = "/general/unfinishedLoan")
-    public String getFinishedLoans(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
-        return "{'bill_id':'successful'," +
-                "'intend_money':'successful'," +
-                "'start_date':'avatar_url'," +
-                "'rate':'successful'," +
-                "'pay_type':'successful'" +
-                "'limit_months':'successful'" +
-                "'state':'successful'" +
-                "'raised_money':'successful'" +
-                "}";
-    }
 
     @GetMapping(value = "/EugeneLiu")
     public String eugeneLiu() {

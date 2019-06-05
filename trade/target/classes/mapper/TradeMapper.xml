@@ -29,4 +29,8 @@
     <select id="getUnfinishedLoans" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from trade where in_bound_account = #{in_bound_account} and finished_date = null
     </select>
+
+    <select id="getFinishedLoans" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from trade where in_bound_account = #{in_bound_account} and finished_date != null
+    </select>
 </mapper>

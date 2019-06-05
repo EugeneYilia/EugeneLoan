@@ -4,15 +4,15 @@ $(document).ready(function () {
         url: "/information/borrower/information",
         dataType: "json",
         success: function(res) {
-            $("#special_certification").val("\t\t " + res.special_certification);
+            $("#special_certification").val( "\t "+res.special_identity);
             $("#user_name").val("\t " + res.user_name);
             $("#phone_number").val("\t\t" + res.phone_number);
-            $("#sex").val("\t " + res.sex);
+            $("#sex").val("\t" + res.sex);
             $("#profession").val("\t " + res.profession);
             $("#educational_level").val("\t\t " + res.educational_level);
             $("#marriage").val("\t\t " + res.marriage);
-            $("#address").val("\t " + res.address);
-            $("#avatar").src(res.avatar);
+            $("#address").val("\t"+res.address);
+            //$("#avatar").src(res.avatar);
         },
 
         error: function() {
@@ -24,7 +24,7 @@ $(document).ready(function () {
 
 $("#save_button").click(function(){
     $.ajax({
-        type: "POST",
+        type: "PUT",
         url: "/information/borrower/information",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({
@@ -35,7 +35,7 @@ $("#save_button").click(function(){
             "phone_number": $("#phone_number").val().trim(),
             "profession": $("#profession").val().trim(),
             "sex": $("#sex").val().trim(),
-            "user_name": $("#user_name").val().trim(),
+            //"user_name": $("#user_name").val().trim(),
             "special_certification": $("#special_certification").val().trim()
         }),
         dataType: "json",

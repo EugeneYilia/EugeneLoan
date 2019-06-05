@@ -86,7 +86,7 @@ public class LenderTradeAPIController {
                 "}";
     }
 
-    @ApiOperation(value = "借出方待完成交易接口",notes = "返回借出方关于待完成交易相关的信息")
+    @ApiOperation(value = "借出方待交易接口",notes = "返回借出方关于待完成交易相关的信息")
     @GetMapping(value = "/lender/unfinishedLoan")
     public String getUnfinishedLoan(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse){
         httpServletResponse.setContentType("application/json;charset=UTF-8");

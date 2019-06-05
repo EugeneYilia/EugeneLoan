@@ -190,7 +190,7 @@ public class BorrowerTradeAPIController {
 
         //再修改资金账户表的额度字段
         double new_available_limit = available_limit - intend_Money;
-        boolean isSuccessful2 = iBorrower_accountService.updateAccountBalance(id_card, new_available_limit);
+        boolean isSuccessful2 = iBorrower_accountService.updateAvailableLimit(id_card, new_available_limit);
 
         if (isSuccessful1 && isSuccessful2) {
             JSONObject result = new JSONObject();
@@ -264,7 +264,7 @@ public class BorrowerTradeAPIController {
         return jsonArray.toJSONString();
     }
 
-    @ApiOperation(value = "待交易页面接口", notes = "查看未达成的贷款记录")
+    @ApiOperation(value = "借入方待交易页面接口", notes = "查看未达成的贷款记录")
     @GetMapping(value = "/borrower/unfinishedLoan")
     public String getFinishedLoans(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 

@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2019-05-27
  */
 public interface IWithdraw_recordService extends IService<Withdraw_record> {
-
+    boolean insertRecord(Withdraw_record withdraw_record);
 }

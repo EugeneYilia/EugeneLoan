@@ -10,5 +10,7 @@
         <result column="start_date" property="start_date" />
         <result column="state" property="state" />
     </resultMap>
-
+    <select id="getForzenMoney" parameterType="java.lang.String" resultType="Double">
+        select sum(lend_money) from intend_lend where id_card = #{id_card} and state =1
+    </select>
 </mapper>

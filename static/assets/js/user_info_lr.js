@@ -11,7 +11,7 @@ $(document).ready(function () {
             $("#educational_level").val("\t\t " + res.educational_level);
             $("#marriage").val("\t\t " + res.marriage);
             $("#address").val("\t " + res.address);
-            $("#avatar").src(res.avatar);
+            //$("#avatar").src(res.avatar);
         },
 
         error: function() {
@@ -23,7 +23,7 @@ $(document).ready(function () {
 
 $("#save_button").click(function(){
     $.ajax({
-        type: "POST",
+        type: "PUT",
         url: "/information/lender/information",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({
@@ -34,7 +34,7 @@ $("#save_button").click(function(){
             "phone_number": $("#phone_number").val().trim(),
             "profession": $("#profession").val().trim(),
             "sex": $("#sex").val().trim(),
-            "user_name": $("#user_name").val().trim()
+            //"user_name": $("#user_name").val().trim()
         }),
         dataType: "json",
         success: function (message) {

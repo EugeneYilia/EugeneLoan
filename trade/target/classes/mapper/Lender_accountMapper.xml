@@ -22,4 +22,7 @@
     <update id="updateAccountBalance">
         update lender_account set account_balance = #{new_balance} where id_card = #{id_card}
     </update>
+    <select id="getAllInformation" resultMap="BaseResultMap">
+        select * from lender_account where id_card = #{id_card}
+    </select>
 </mapper>

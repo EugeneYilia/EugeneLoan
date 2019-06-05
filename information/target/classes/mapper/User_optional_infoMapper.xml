@@ -33,4 +33,6 @@
     <select id="getSpecialIdentity" parameterType="java.lang.String" resultType="String">
         select special_identity from user_optional_info where id_card = #{id_card}
     </select>
+
+
 </mapper>

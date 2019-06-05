@@ -48,13 +48,14 @@ public class LenderController {
 
         UserInfo userInfo = iUser_required_infoService.selectUserIfo(id_card);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("phone_number",userInfo.getPhone_number());
-        jsonObject.put("user_name",userInfo.getUser_name());
-        jsonObject.put("sex",userInfo.getSex());
-        jsonObject.put("educational_level",userInfo.getEducational_level());
-        jsonObject.put("marriage",userInfo.getMarriage());
-        jsonObject.put("profession",userInfo.getProfession());
-        jsonObject.put("special_identity",userInfo.getSpecial_identity());
+        jsonObject.put("phone_number", userInfo.getPhone_number() == null ? "未填写" : userInfo.getPhone_number());
+        jsonObject.put("user_name", userInfo.getUser_name() == null ? "未填写" : userInfo.getUser_name());
+        jsonObject.put("sex", userInfo.getSex() == null ? "未填写" : userInfo.getSex());
+        jsonObject.put("educational_level", userInfo.getEducational_level() == null ? "未填写" : userInfo.getEducational_level());
+        jsonObject.put("marriage", userInfo.getMarriage() == null ? "未填写" : userInfo.getMarriage());
+        jsonObject.put("profession", userInfo.getProfession() == null ? "未填写" : userInfo.getProfession());
+        jsonObject.put("special_identity", userInfo.getSpecial_identity() == null ? "未认证" : "已认证");
+        jsonObject.put("address", userInfo.getAddress() == null ? "未填写" : userInfo.getAddress());
 
         return jsonObject.toJSONString();
     }

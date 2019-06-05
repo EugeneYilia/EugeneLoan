@@ -21,15 +21,15 @@ public class Borrower_accountServiceImpl extends ServiceImpl<Borrower_accountMap
     @Autowired
     Borrower_accountMapper borrower_accountMapper;
 
-    @Override
-    public boolean insertBorrower(Borrower_account borrower_account) {
-        int result = borrower_accountMapper.insertBorrower(borrower_account);
-        if (result == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    @Override
+//    public boolean insertBorrower(Borrower_account borrower_account) {
+//        int result = borrower_accountMapper.insertBorrower(borrower_account);
+//        if (result == 1) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
     @Override
     public Double getLimit(String id_card) {
@@ -63,7 +63,7 @@ public class Borrower_accountServiceImpl extends ServiceImpl<Borrower_accountMap
 
     @Override
     public boolean updateAvailableLimit(String id_card, double available_limit) {
-        int result = borrower_accountMapper.updateAccountBalance(id_card, available_limit);
+        int result = borrower_accountMapper.updateAvailableLimit(available_limit, id_card);
         if (result == 1) {
             return true;
         } else {

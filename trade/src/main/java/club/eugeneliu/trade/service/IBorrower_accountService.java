@@ -2,7 +2,6 @@ package club.eugeneliu.trade.service;
 
 import club.eugeneliu.trade.entity.Borrower_account;
 import com.baomidou.mybatisplus.service.IService;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @since 2019-05-27
  */
 public interface IBorrower_accountService extends IService<Borrower_account> {
-    boolean insertBorrower(Borrower_account borrower_account);
+//    boolean insertBorrower(Borrower_account borrower_account);
 
     Double getLimit(String id_card);
 
@@ -25,5 +24,5 @@ public interface IBorrower_accountService extends IService<Borrower_account> {
 
     String getFundsAccount(String id_card);
 
-    boolean updateAvailableLimit(@Param("id_card") String id_card, @Param("available_limit") double available_limit);
+    boolean updateAvailableLimit(String id_card, double available_limit);
 }

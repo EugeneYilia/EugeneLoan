@@ -4,7 +4,6 @@ import club.eugeneliu.trade.entity.Lender_account;
 import club.eugeneliu.trade.mapper.Lender_accountMapper;
 import club.eugeneliu.trade.service.ILender_accountService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +44,10 @@ public class Lender_accountServiceImpl extends ServiceImpl<Lender_accountMapper,
         } else {
             return false;
         }
+    }
+
+    @Override
+    public Lender_account getAllInformation(String id_card) {
+        return lender_accountMapper.getAllInformation(id_card);
     }
 }
