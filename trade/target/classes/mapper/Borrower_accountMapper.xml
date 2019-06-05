@@ -29,4 +29,10 @@
     <update id="updateAccountBalance">
         update borrower_account set account_balance = #{new_balance} where id_card = #{id_card}
     </update>
+    <select id="getFundsAccount" parameterType="java.lang.String" resultType="String">
+        select funds_account from borrower_account where id_card = #{id_card}
+    </select>
+    <update id="updateAvailableLimit">
+        update borrower_account set available_limit = #{available_limit} where id_card = #{id_card}
+    </update>
 </mapper>

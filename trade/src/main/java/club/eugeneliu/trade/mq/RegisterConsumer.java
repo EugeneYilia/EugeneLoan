@@ -121,9 +121,13 @@ public class RegisterConsumer implements Runnable {
 //        } else {
 //            return 0;
 //        }
-        double a = 3E-9;
-        double n = 4.50757555;
-        return ((int) ((a * Math.pow(score, n)) / 100 + 1)) * 100;
+        if(score <= 300){
+            return 0;
+        } else {
+            double a = 3E-9;
+            double n = 4.50757555;
+            return ((int) ((a * Math.pow(score, n)) / 100 + 1)) * 100;
+        }
     }
 
     private int getFiftyNumber(int number) {

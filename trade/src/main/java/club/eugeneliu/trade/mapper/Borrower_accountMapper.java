@@ -20,4 +20,6 @@ public interface Borrower_accountMapper extends BaseMapper<Borrower_account> {
     Borrower_account getAllInformation(@Param("id_card") String id_card);
     Double getAccountBalance(@Param("id_card") String id_card);
     int updateAccountBalance(@Param("id_card") String id_card,@Param("new_balance") double new_balance);
+    String getFundsAccount(@Param("id_card") String id_card);
+    int updateAvailableLimit(@Param("id_card") String id_card,@Param("available_limit") double available_limit);
 }

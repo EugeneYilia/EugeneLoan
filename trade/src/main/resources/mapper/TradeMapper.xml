@@ -22,5 +22,11 @@
         <result column="should_repay_liquidated_money" property="should_repay_liquidated_money" />
         <result column="finished_date" property="finished_date" />
     </resultMap>
+    <select id="getTradeNumber" parameterType="java.lang.String" resultType="Integer">
+        select count(*) from trade where in_bound_account = #{in_bound_account} and finished_date != null
+    </select>
 
+    <select id="getUnfinishedLoans" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from trade where in_bound_account = #{in_bound_account} and finished_date = null
+    </select>
 </mapper>

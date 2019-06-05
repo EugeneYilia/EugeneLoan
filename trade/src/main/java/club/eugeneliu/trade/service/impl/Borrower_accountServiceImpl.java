@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author EugeneLiu
@@ -24,7 +24,7 @@ public class Borrower_accountServiceImpl extends ServiceImpl<Borrower_accountMap
     @Override
     public boolean insertBorrower(Borrower_account borrower_account) {
         int result = borrower_accountMapper.insertBorrower(borrower_account);
-        if(result == 1){
+        if (result == 1) {
             return true;
         } else {
             return false;
@@ -48,13 +48,26 @@ public class Borrower_accountServiceImpl extends ServiceImpl<Borrower_accountMap
 
     @Override
     public boolean updateAccountBalance(String id_card, double new_balance) {
-        int result = borrower_accountMapper.updateAccountBalance(id_card,new_balance);
-        if(result == 1){
+        int result = borrower_accountMapper.updateAccountBalance(id_card, new_balance);
+        if (result == 1) {
             return true;
         } else {
             return false;
         }
     }
 
+    @Override
+    public String getFundsAccount(String id_card) {
+        return borrower_accountMapper.getFundsAccount(id_card);
+    }
 
+    @Override
+    public boolean updateAvailableLimit(String id_card, double available_limit) {
+        int result = borrower_accountMapper.updateAccountBalance(id_card, available_limit);
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

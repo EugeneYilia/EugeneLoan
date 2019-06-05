@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2019-05-27
  */
 public interface IIntend_borrowService extends IService<Intend_borrow> {
-
+    int getIntendNumber(String id_card);
+    boolean insertIntendBorrow(Intend_borrow intend_borrow);
 }
