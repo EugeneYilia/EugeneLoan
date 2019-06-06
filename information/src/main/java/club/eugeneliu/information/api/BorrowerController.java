@@ -99,6 +99,7 @@ public class BorrowerController {
         System.out.println(marriage);
         System.out.println(profession);
         System.out.println(address);
+        System.out.println(id_card);
 
         User_optional_info user_optional_info = new User_optional_info();
         user_optional_info.setSex(sex);
@@ -110,6 +111,8 @@ public class BorrowerController {
         boolean isSuccessful1 = iUser_optional_infoService.updateUserOptionalInfo(user_optional_info);
 //        boolean isSuccessful2 = iUser_required_infoService.updateUserPhoneNumber(phone_number, id_card);
 
+        System.out.println(isSuccessful1
+        );
         //不能更改手机号
         if (isSuccessful1) {
             JSONObject result = new JSONObject();

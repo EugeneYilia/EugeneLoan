@@ -18,7 +18,7 @@
     </insert>
     <update id="updateUserOptionalInfo" parameterType="club.eugeneliu.information.entity.User_optional_info">
         update user_optional_info set sex = #{sex},educational_level = #{educational_level},marriage=#{marriage},profession=#{profession},address=#{address}
-        where id_card = #{id_card}
+        where id_card = "#{id_card}"
     </update>
 
     <update id="updateAvatar" parameterType="club.eugeneliu.information.entity.User_optional_info">
