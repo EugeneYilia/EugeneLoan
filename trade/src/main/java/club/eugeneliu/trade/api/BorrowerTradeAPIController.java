@@ -18,9 +18,11 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Api("借入者交易控制器")
@@ -74,6 +76,12 @@ public class BorrowerTradeAPIController {
     @ApiOperation(value = "发起借入事件", notes = "发起贷款，先进入意向借入")
     @PostMapping(value = "/borrower/loan", produces = "application/json;charset=UTF-8")
     public String launchLoan(HttpServletRequest httpServletRequest, @RequestBody Map objects) {
+
+//        System.out.println((String) objects.get("intend_money"));
+//        System.out.println((String) objects.get("rate"));
+//        System.out.println((String) objects.get("pay_type"));
+//        System.out.println((String) objects.get("limit_months"));
+
         Double intend_Money = Double.parseDouble((String) objects.get("intend_money"));
         Float rate = Float.parseFloat((String) objects.get("rate"));//0.01
         int pay_type = Integer.parseInt((String) objects.get("pay_type"));//1->按月付 3->按季付
@@ -154,19 +162,22 @@ public class BorrowerTradeAPIController {
 //            }
 //        }
 
+//        System.out.println("funds_account:" + funds_account);
+
         int trade_number = iTradeService.getTradeNumber(funds_account);
         if (trade_number >= 1) {//每人最多只能借一个账目
             JSONObject result = new JSONObject();
             result.put("state", "error");
             return result.toJSONString();
         }
+
         int intend_borrow_number = iIntend_borrowService.getIntendNumber(id_card);
         if ((intend_borrow_number + trade_number) >= 1) {
             JSONObject result = new JSONObject();
             result.put("state", "error");
             return result.toJSONString();
         }
-
+//        System.out.println("账目OK");
 
         //再比较额度
         Double available_limit = iBorrower_accountService.getLimit(id_card);
@@ -175,6 +186,7 @@ public class BorrowerTradeAPIController {
             result.put("state", "error");
             return result.toJSONString();
         }
+//        System.out.println("额度OK");
 
         //给intend_borrow表增加字段
         Intend_borrow intend_borrow = new Intend_borrow();
@@ -192,6 +204,9 @@ public class BorrowerTradeAPIController {
         double new_available_limit = available_limit - intend_Money;
         boolean isSuccessful2 = iBorrower_accountService.updateAvailableLimit(id_card, new_available_limit);
 
+//        System.out.println(isSuccessful1);
+//        System.out.println(isSuccessful2);
+
         if (isSuccessful1 && isSuccessful2) {
             JSONObject result = new JSONObject();
             result.put("state", "successful");
@@ -206,14 +221,14 @@ public class BorrowerTradeAPIController {
     }
 
 
-
-    @ApiOperation(value = "查看自己的待还款记录", notes = "只包含接入用户的未还清钱款记录")
-    @GetMapping(value = "/borrower/loan", produces = "application/json;charset=UTF-8")
-    public String getLoan(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    @ApiOperation(value = "借入方待交易页面接口", notes = "查看未达成的贷款记录")
+    @GetMapping(value = "/borrower/unfinishedLoan",produces = "application/json;charset=UTF-8")
+    public String getIntendedLoans(HttpServletRequest httpServletRequest) {
         String id_card = "";
+
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("id_card")) {
+             if (cookie.getName().equals("id_card")) {
                 try {
                     id_card = CertificationUtil.decode(cookie.getValue());
                 } catch (IOException e) {
@@ -222,24 +237,56 @@ public class BorrowerTradeAPIController {
             }
         }
 
-        String in_bound_account = iBorrower_accountService.getFundsAccount(id_card);
+        Intend_borrow intend_borrow = iIntend_borrowService.getIntendedLoans(id_card);
 
-//        JSONArray jsonArray = new JSONArray();
-        Trade unfinishedTrade = iTradeService.getUnfinishedLoans(in_bound_account);
+        JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("bill_id",unfinishedTrade.getBill_id());
-        jsonObject.put("start_date",unfinishedTrade.getExact_date());
-        jsonObject.put("start_money",unfinishedTrade.getMoney());
-        jsonObject.put("unpay_money",unfinishedTrade.getMoney());
-//        jsonObject.put("next_time_should_pay",);
-//        jsonObject.put("liquidated_money",);
-//        jsonObject.put("pay_rate",unfinishedTrade.getPay_rate());
-//        jsonObject.put("pay_type",unfinishedTrade.getPay_type());
-//        jsonObject.put("deadline",);
-//        jsonObject.put("start_interest",);
-
-        return jsonObject.toJSONString();
+        jsonObject.put("bill_id",intend_borrow.getBill_id());
+        jsonObject.put("intend_money",intend_borrow.getIntend_money());
+        jsonObject.put("start_date",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(intend_borrow.getStart_date()));
+        jsonObject.put("rate",intend_borrow.getPay_rate());
+        jsonObject.put("pay_type",intend_borrow.getPay_type());
+        jsonObject.put("limit_months",intend_borrow.getLimit_months());
+        jsonObject.put("raised_money",intend_borrow.getRaised_money());
+        jsonArray.add(jsonObject);
+        System.out.println("OK");
+        return jsonArray.toString();
     }
+
+
+//    @ApiOperation(value = "查看自己的待还款记录", notes = "只包含接入用户的未还清钱款记录")
+//    @GetMapping(value = "/borrower/loan", produces = "application/json;charset=UTF-8")
+//    public String getLoan(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+//        String id_card = "";
+//        Cookie[] cookies = httpServletRequest.getCookies();
+//        for (Cookie cookie : cookies) {
+//            if (cookie.getName().equals("id_card")) {
+//                try {
+//                    id_card = CertificationUtil.decode(cookie.getValue());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//        String in_bound_account = iBorrower_accountService.getFundsAccount(id_card);
+//
+////        JSONArray jsonArray = new JSONArray();
+//        Trade unfinishedTrade = iTradeService.getUnfinishedLoans(in_bound_account);
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("bill_id", unfinishedTrade.getBill_id());
+//        jsonObject.put("start_date", unfinishedTrade.getExact_date());
+//        jsonObject.put("start_money", unfinishedTrade.getMoney());
+//        jsonObject.put("unpay_money", unfinishedTrade.getMoney());
+////        jsonObject.put("next_time_should_pay",);
+////        jsonObject.put("liquidated_money",);
+////        jsonObject.put("pay_rate",unfinishedTrade.getPay_rate());
+////        jsonObject.put("pay_type",unfinishedTrade.getPay_type());
+////        jsonObject.put("deadline",);
+////        jsonObject.put("start_interest",);
+//
+//        return jsonObject.toJSONString();
+//    }
 
     @ApiOperation(value = "借入方已完成记录接口", notes = "借入方查看已经完成的记录")
     @GetMapping(value = "/borrower/finishedLoan")
@@ -257,42 +304,41 @@ public class BorrowerTradeAPIController {
             }
         }
 
-        String in_bound_account = iBorrower_accountService.getFundsAccount(id_card);
+        String in_bound_account = iBorrower_accountService.getFundsAccount(id_card);//in_bound_account就是fund_account
 
         JSONArray jsonArray = new JSONArray();
-        jsonArray.addAll(iTradeService.getFinishedLoans(in_bound_account));
+        List<Trade> trades = iTradeService.getFinishedLoans(in_bound_account);
+        for(Trade trade:trades){
+            int limit_months = trade.getLimit_months();
+            BigDecimal bigInterest = new BigDecimal(String.valueOf());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("bill_id",trade.getBill_id());
+            jsonObject.put("start_date",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(trade.getExact_date()));
+            jsonObject.put("money",trade.getMoney());
+            jsonObject.put("interest",trade.getPay_rate());
+            jsonObject.put("rate",trade.getPay_rate());//月利率
+
+            jsonArray.add(jsonObject);
+        }
         return jsonArray.toJSONString();
     }
 
-    @ApiOperation(value = "借入方待交易页面接口", notes = "查看未达成的贷款记录")
-    @GetMapping(value = "/borrower/unfinishedLoan")
-    public String getFinishedLoans(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
-        return "{'bill_id':'successful'," +
-                "'intend_money':'successful'," +
-                "'start_date':'avatar_url'," +
-                "'rate':'successful'," +
-                "'pay_type':'successful'" +
-                "'limit_months':'successful'" +
-                "'state':'successful'" +
-                "'raised_money':'successful'" +
-                "}";
-    }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "bill_id", value = "待还款记录ID", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "money", value = "金额", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "exact_date", value = "日期", required = true, dataType = "String")
-    })
-    @ApiOperation(value = "还款接口", notes = "对借的钱进行还款")
-    @PutMapping(value = "/borrower/loan")
-    public String returnMoney(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String bill_id = httpServletRequest.getParameter("bill_id");
-        String money = httpServletRequest.getParameter("money");
-        String exact_date = httpServletRequest.getParameter("exact_date");
-
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
-        return "{'state':'successful'}";
-    }
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "bill_id", value = "待还款记录ID", required = true, dataType = "String"),
+//            @ApiImplicitParam(name = "money", value = "金额", required = true, dataType = "String"),
+//            @ApiImplicitParam(name = "exact_date", value = "日期", required = true, dataType = "String")
+//    })
+//    @ApiOperation(value = "还款接口", notes = "对借的钱进行还款")
+//    @PutMapping(value = "/borrower/loan")
+//    public String returnMoney(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+//        String bill_id = httpServletRequest.getParameter("bill_id");
+//        String money = httpServletRequest.getParameter("money");
+//        String exact_date = httpServletRequest.getParameter("exact_date");
+//
+//        httpServletResponse.setContentType("application/json;charset=UTF-8");
+//        return "{'state':'successful'}";
+//    }
 }

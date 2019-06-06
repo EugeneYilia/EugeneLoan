@@ -35,4 +35,9 @@ public class Intend_borrowServiceImpl extends ServiceImpl<Intend_borrowMapper, I
             return true;
         }
     }
+
+    @Override
+    public Intend_borrow getIntendedLoans(String id_card) {
+        return intend_borrowMapper.getIntendedLoans(id_card);
+    }
 }

@@ -22,7 +22,7 @@ public class Intend_lendServiceImpl extends ServiceImpl<Intend_lendMapper, Inten
     private Intend_lendMapper intend_lendMapper;
 
     @Override
-    public double getForzenMoney(String id_card) {
+    public Double getForzenMoney(String id_card) {
         return intend_lendMapper.getForzenMoney(id_card);
     }
 }

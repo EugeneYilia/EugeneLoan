@@ -14,4 +14,5 @@ import com.baomidou.mybatisplus.service.IService;
 public interface IIntend_borrowService extends IService<Intend_borrow> {
     int getIntendNumber(String id_card);
     boolean insertIntendBorrow(Intend_borrow intend_borrow);
+    Intend_borrow getIntendedLoans(String id_card);
 }

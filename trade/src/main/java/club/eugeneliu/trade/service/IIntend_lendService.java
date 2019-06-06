@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2019-05-27
  */
 public interface IIntend_lendService extends IService<Intend_lend> {
-    double getForzenMoney(String id_card);
+    Double getForzenMoney(String id_card);
 }

@@ -176,7 +176,12 @@ public class GeneralController {
         } else if (user_type.equals(LENDER.getIdentity())) {
             Lender_account lender_account = iLender_accountService.getAllInformation(id_card);
             bigAccountBalance = new BigDecimal(String.valueOf(lender_account.getAccount_balance()));
-            bigForzenMoney = new BigDecimal(String.valueOf(iIntend_lendService.getForzenMoney(id_card)));
+            Double frozenMoney = iIntend_lendService.getForzenMoney(id_card);
+            if(frozenMoney == null){
+                bigForzenMoney = new BigDecimal("0");
+            } else {
+                bigForzenMoney = new BigDecimal(String.valueOf(frozenMoney));
+            }
             availableMoney = bigAccountBalance.subtract(bigForzenMoney);
         }
 

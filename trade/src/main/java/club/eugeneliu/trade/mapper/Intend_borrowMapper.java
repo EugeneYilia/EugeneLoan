@@ -17,4 +17,5 @@ import org.springframework.stereotype.Component;
 public interface Intend_borrowMapper extends BaseMapper<Intend_borrow> {
     int getIntendNumber(@Param("id_card") String id_card);
     int insertIntendBorrow(Intend_borrow intend_borrow);
+    Intend_borrow getIntendedLoans(@Param("id_card") String id_card);
 }

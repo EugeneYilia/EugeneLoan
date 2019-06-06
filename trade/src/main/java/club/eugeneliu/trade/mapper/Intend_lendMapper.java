@@ -15,5 +15,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface Intend_lendMapper extends BaseMapper<Intend_lend> {
-    double getForzenMoney(@Param("id_card") String id_card);
+    Double getForzenMoney(@Param("id_card") String id_card);
 }

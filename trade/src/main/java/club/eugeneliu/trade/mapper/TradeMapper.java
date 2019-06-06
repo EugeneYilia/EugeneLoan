@@ -18,6 +18,6 @@ import java.util.List;
 @Component
 public interface TradeMapper extends BaseMapper<Trade> {
     int getTradeNumber(@Param("in_bound_account") String in_bound_account);
-    Trade getUnfinishedLoans(@Param("in_bound_account") String in_bound_account);
-    List<Trade> getFinishedLoans(@Param("in_bound_account") String in_bound_account);
+    Trade getUnfinishedLoans(@Param("in_bound_account") String in_bound_account);//所有人最多只能有一条
+    List<Trade> getFinishedLoans(@Param("in_bound_account") String in_bound_account);//所有人都可以有很多条
 }

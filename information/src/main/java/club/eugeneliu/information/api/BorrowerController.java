@@ -49,14 +49,14 @@ public class BorrowerController {
 
         UserInfo userInfo = iUser_required_infoService.selectUserIfo(id_card);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("phone_number", userInfo.getPhone_number() == null ? "未填写" : userInfo.getPhone_number());
-        jsonObject.put("user_name", userInfo.getUser_name() == null ? "未填写" : userInfo.getUser_name());
-        jsonObject.put("sex", userInfo.getSex() == null ? "未填写" : userInfo.getSex());
-        jsonObject.put("educational_level", userInfo.getEducational_level() == null ? "未填写" : userInfo.getEducational_level());
-        jsonObject.put("marriage", userInfo.getMarriage() == null ? "未填写" : userInfo.getMarriage());
-        jsonObject.put("profession", userInfo.getProfession() == null ? "未填写" : userInfo.getProfession());
+        jsonObject.put("phone_number", userInfo.getPhone_number() == null ? "无" : userInfo.getPhone_number());
+        jsonObject.put("user_name", userInfo.getUser_name() == null ? "无" : userInfo.getUser_name());
+        jsonObject.put("sex", userInfo.getSex() == null ? "无" : userInfo.getSex());
+        jsonObject.put("educational_level", userInfo.getEducational_level() == null ? "无" : userInfo.getEducational_level());
+        jsonObject.put("marriage", userInfo.getMarriage() == null ? "无" : userInfo.getMarriage());
+        jsonObject.put("profession", userInfo.getProfession() == null ? "无" : userInfo.getProfession());
         jsonObject.put("special_identity", userInfo.getSpecial_identity() == null ? "未认证" : "已认证");
-        jsonObject.put("address", userInfo.getAddress() == null ? "未填写" : userInfo.getAddress());
+        jsonObject.put("address", userInfo.getAddress() == null ? "无" : userInfo.getAddress());
 
         return jsonObject.toJSONString();
     }
@@ -94,12 +94,12 @@ public class BorrowerController {
         String address = (String) objects.get("address");
 
 //        System.out.println(phone_number);
-        System.out.println(sex);
-        System.out.println(educational_level);
-        System.out.println(marriage);
-        System.out.println(profession);
-        System.out.println(address);
-        System.out.println(id_card);
+//        System.out.println(sex);
+//        System.out.println(educational_level);
+//        System.out.println(marriage);
+//        System.out.println(profession);
+//        System.out.println(address);
+//        System.out.println(id_card);
 
         User_optional_info user_optional_info = new User_optional_info();
         user_optional_info.setSex(sex);
@@ -107,12 +107,12 @@ public class BorrowerController {
         user_optional_info.setMarriage(marriage);
         user_optional_info.setProfession(profession);
         user_optional_info.setAddress(address);
+        user_optional_info.setId_card(id_card);
 
         boolean isSuccessful1 = iUser_optional_infoService.updateUserOptionalInfo(user_optional_info);
 //        boolean isSuccessful2 = iUser_required_infoService.updateUserPhoneNumber(phone_number, id_card);
 
-        System.out.println(isSuccessful1
-        );
+//        System.out.println(isSuccessful1);
         //不能更改手机号
         if (isSuccessful1) {
             JSONObject result = new JSONObject();

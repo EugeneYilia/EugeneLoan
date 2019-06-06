@@ -30,9 +30,9 @@ public class LenderController {
     @Autowired
     IUser_optional_infoService iUser_optional_infoService;
 
-    @ApiOperation(value = "获取借出方个人信息",notes = "请求该url，返回借出者用户信息的json")
+    @ApiOperation(value = "获取借出方个人信息", notes = "请求该url，返回借出者用户信息的json")
     @GetMapping(value = "/lender/information")
-    public String getInformation(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public String getInformation(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
         String id_card = "";
         Cookie[] cookies = httpServletRequest.getCookies();
@@ -48,30 +48,30 @@ public class LenderController {
 
         UserInfo userInfo = iUser_required_infoService.selectUserIfo(id_card);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("phone_number", userInfo.getPhone_number() == null ? "未填写" : userInfo.getPhone_number());
-        jsonObject.put("user_name", userInfo.getUser_name() == null ? "未填写" : userInfo.getUser_name());
-        jsonObject.put("sex", userInfo.getSex() == null ? "未填写" : userInfo.getSex());
-        jsonObject.put("educational_level", userInfo.getEducational_level() == null ? "未填写" : userInfo.getEducational_level());
-        jsonObject.put("marriage", userInfo.getMarriage() == null ? "未填写" : userInfo.getMarriage());
-        jsonObject.put("profession", userInfo.getProfession() == null ? "未填写" : userInfo.getProfession());
+        jsonObject.put("phone_number", userInfo.getPhone_number() == null ? "无" : userInfo.getPhone_number());
+        jsonObject.put("user_name", userInfo.getUser_name() == null ? "无" : userInfo.getUser_name());
+        jsonObject.put("sex", userInfo.getSex() == null ? "无" : userInfo.getSex());
+        jsonObject.put("educational_level", userInfo.getEducational_level() == null ? "无" : userInfo.getEducational_level());
+        jsonObject.put("marriage", userInfo.getMarriage() == null ? "无" : userInfo.getMarriage());
+        jsonObject.put("profession", userInfo.getProfession() == null ? "无" : userInfo.getProfession());
         jsonObject.put("special_identity", userInfo.getSpecial_identity() == null ? "未认证" : "已认证");
-        jsonObject.put("address", userInfo.getAddress() == null ? "未填写" : userInfo.getAddress());
+        jsonObject.put("address", userInfo.getAddress() == null ? "无" : userInfo.getAddress());
 
         return jsonObject.toJSONString();
     }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name="phone_number",value = "电话号码",required = true,dataType = "String"),
-            @ApiImplicitParam(name="sex",value = "性别",required = true,dataType = "String"),
-            @ApiImplicitParam(name="educational_level",value = "教育水平",required = true,dataType = "String"),
-            @ApiImplicitParam(name="marriage",value = "婚姻状况",required = true,dataType = "String"),
-            @ApiImplicitParam(name="profession",value = "职业",required = true,dataType = "String"),
-            @ApiImplicitParam(name="address",value = "地址",required = true,dataType = "String"),
-            @ApiImplicitParam(name="avatar",value = "头像",required = true,dataType = "MultipartFile")
+            @ApiImplicitParam(name = "phone_number", value = "电话号码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "sex", value = "性别", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "educational_level", value = "教育水平", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "marriage", value = "婚姻状况", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "profession", value = "职业", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "address", value = "地址", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "avatar", value = "头像", required = true, dataType = "MultipartFile")
     })
-    @ApiOperation(value = "修改借出方个人信息",notes = "通过该URL，修改借出者用户的信息")
+    @ApiOperation(value = "修改借出方个人信息", notes = "通过该URL，修改借出者用户的信息")
     @PutMapping(value = "/lender/information")
-    public String modifyInformation(@RequestBody Map objects,HttpServletRequest httpServletRequest){
+    public String modifyInformation(@RequestBody Map objects, HttpServletRequest httpServletRequest) {
         String id_card = "";
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
@@ -84,7 +84,7 @@ public class LenderController {
             }
         }
 
-        String phone_number = (String) objects.get("phone_number");
+//        String phone_number = (String) objects.get("phone_number");
         String sex = (String) objects.get("sex");
         String educational_level = (String) objects.get("educational_level");
         String marriage = (String) objects.get("marriage");
@@ -97,18 +97,30 @@ public class LenderController {
         user_optional_info.setMarriage(marriage);
         user_optional_info.setProfession(profession);
         user_optional_info.setAddress(address);
+        user_optional_info.setId_card(id_card);
 
         boolean isSuccessful1 = iUser_optional_infoService.updateUserOptionalInfo(user_optional_info);
-        boolean isSuccessful2 = iUser_required_infoService.updateUserPhoneNumber(phone_number,id_card);
+//        boolean isSuccessful2 = iUser_required_infoService.updateUserPhoneNumber(phone_number,id_card);
 
-        if(isSuccessful1 && isSuccessful2){
+        if (isSuccessful1) {
             JSONObject result = new JSONObject();
-            result.put("state","successful");
+            result.put("state", "successful");
             return result.toJSONString();
-        } else{
+        } else {
+//            System.out.println(isSuccessful1);
+//            System.out.println(isSuccessful2);
             JSONObject result = new JSONObject();
-            result.put("state","error");
+            result.put("state", "error");//更该消息失败:可能是前后两次的数据值是一样的,没有任何变化
             return result.toJSONString();
         }
+//        if(isSuccessful1 && isSuccessful2){
+//            JSONObject result = new JSONObject();
+//            result.put("state","successful");
+//            return result.toJSONString();
+//        } else{
+//            JSONObject result = new JSONObject();
+//            result.put("state","error");
+//            return result.toJSONString();
+//        }
     }
 }

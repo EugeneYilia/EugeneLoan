@@ -19,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
@@ -37,9 +36,9 @@ public class LenderAccountAPIController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @ApiOperation(value = "查看借出方资金账户",notes = "返回借出方资金账户的详细信息")
-    @GetMapping(value = "/lender/account")
-    public String getUserAccount(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    @ApiOperation(value = "查看借出方资金账户", notes = "返回借出方资金账户的详细信息")
+    @GetMapping(value = "/lender/account", produces = "application/json;charset=UTF-8")
+    public String getUserAccount(HttpServletRequest httpServletRequest) {
 
         String user_name = "";
         String id_card = "";
@@ -61,13 +60,13 @@ public class LenderAccountAPIController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else if(cookie.getName().equals("phone_number")){
+            } else if (cookie.getName().equals("phone_number")) {
                 try {
                     phone_number = CertificationUtil.decode(cookie.getValue());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else if(cookie.getName().equals("user_type")){
+            } else if (cookie.getName().equals("user_type")) {
                 try {
                     user_type = CertificationUtil.decode(cookie.getValue());
                 } catch (IOException e) {
@@ -78,7 +77,7 @@ public class LenderAccountAPIController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Eugene-Auth", CertificationUtil.encode("eugeneliu"));
-        httpHeaders.add("cookie","phone_number="+CertificationUtil.encode(phone_number)+"; user_name="+CertificationUtil.encode(user_name)+"; id_card="+CertificationUtil.encode(id_card)+"; user_type="+CertificationUtil.encode(user_type));
+        httpHeaders.add("cookie", "phone_number=" + CertificationUtil.encode(phone_number) + "; user_name=" + CertificationUtil.encode(user_name) + "; id_card=" + CertificationUtil.encode(id_card) + "; user_type=" + CertificationUtil.encode(user_type));
 
         HttpEntity<String> httpEntity = new HttpEntity<String>(null, httpHeaders);
         ResponseEntity<String> responseEntity = this.restTemplate.exchange("http://192.168.0.163/information/all/bank_account?id_card=" + id_card, HttpMethod.GET, httpEntity, String.class);
@@ -86,9 +85,13 @@ public class LenderAccountAPIController {
         String bank_account = responseEntity.getBody();
 //        System.out.println("银行卡号:" + bank_account);
 
-        double forzenMoney = iIntend_lendService.getForzenMoney(id_card);
-        BigDecimal bigForzenMoney = new BigDecimal(String.valueOf(forzenMoney));
-
+        Double forzenMoney = iIntend_lendService.getForzenMoney(id_card);
+        BigDecimal bigForzenMoney = null;
+        if (forzenMoney == null) {
+            bigForzenMoney = new BigDecimal("0");
+        } else {
+            bigForzenMoney = new BigDecimal(String.valueOf(forzenMoney));
+        }
         Lender_account lender_account = iLender_accountService.getAllInformation(id_card);
         BigDecimal bigAccountBalance = new BigDecimal(String.valueOf(lender_account.getAccount_balance()));
         JSONObject result = new JSONObject();
@@ -98,8 +101,8 @@ public class LenderAccountAPIController {
         result.put("expected_income", lender_account.getExpected_income());
         result.put("lent_money", lender_account.getLent_money());
         result.put("account_balance", lender_account.getAccount_balance());
-        result.put("available_money",bigAccountBalance.subtract(bigForzenMoney).doubleValue());
-
+        result.put("available_money", bigAccountBalance.subtract(bigForzenMoney).doubleValue());
+//        System.out.println("oooo");
         return result.toJSONString();
     }
 }
